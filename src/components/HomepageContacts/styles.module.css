@@ -1,0 +1,78 @@
+.heroBanner {
+  background: linear-gradient(180deg, #28ff001a 100%, #28ff001a 0), url(/static/img/bg.jpg) 50%/cover no-repeat;
+  min-height: calc(100vh - var(--ifm-navbar-height));
+  overflow: hidden;
+  padding: 0;
+  position: relative;
+  text-align: center
+}
+
+.metaContainerHome {
+  align-items: center;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 50px;
+  display: flex;
+  margin: auto;
+  padding: 2rem;
+  position: relative;
+  text-align: center;
+  width: fit-content
+}
+
+.avatarImage {
+  border-radius: 50%;
+  height: 100px;
+  object-fit: cover;
+  object-position: 0 100%;
+  width: 100px;
+  margin: 2rem;
+}
+
+.contactsSection {
+  padding: 2rem 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.contactSvg {
+  height: 24px;
+  width: 24px;
+}
+
+.contactList {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 100%;
+  align-self: center;
+}
+
+.contactItemCol {
+  width: fit-content !important;
+  --ifm-col-width: fit-content !important;
+  /* margin: auto; */
+  max-width: 50% !important;
+  margin-bottom: 0.5em;
+  padding: 0;
+}
+
+.contactItem {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: fit-content;
+}
+
+.contactItem > svg {
+  margin-right: .5rem;
+}
+
+@media screen and (max-width: 996px) {
+  .heroBanner_src {
+    padding: 2rem;
+  }
+  .metaContainerHome {
+    display: block;
+  }
+}
