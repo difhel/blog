@@ -14,10 +14,21 @@ export default function BlogLayout(props) {
   );
   console.log("Telegram Post Linked", telegramPost);
   const comments = telegramPost ? (
-    <script src="https://telegram.org/js/telegram-widget.js?22" data-telegram-discussion={telegramPost} data-comments-limit="5" data-color="29B127" data-dark-color="72E350"></script>
+    <div id="mountComments"></div>
   ) : (
     <div><Translate>Comments to this post are disabled</Translate></div>
   );
+  if (telegramPost) {
+    document.addEventListener("DOMContentLoaded", () => {
+      let telegramScript = document.createElement("script");
+      telegramScript.setAttribute("src", "https://telegram.org/js/telegram-widget.js?22");
+      telegramScript.setAttribute("data-telegram-discussion", telegramPost);
+      telegramScript.setAttribute("data-comments-limit", "10");
+      telegramScript.setAttribute("data-color", "29B127");
+      telegramScript.setAttribute("data-dark-color", "72E350");
+      document.getElementById("mountComments").insertBefore(telegramScript);
+    })
+  }
   return (
     <Layout {...layoutProps}>
       <div className="container margin-vert--lg">
