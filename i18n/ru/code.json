@@ -5,6 +5,9 @@
   "Contacts": {
     "message": "Контакты"
   },
+  "Comments to this post are disabled": {
+    "message": "Комментарии к этому посту отключены"
+  },
   "home.visitMyBlog": {
     "message": "You can also visit my {blog}",
     "description": "The homepage message to ask the user to visit my blog"
