@@ -48,6 +48,8 @@ const config = {
         docs: false,
         blog: {
           showReadingTime: true,
+          readingTime: ({content, frontMatter, defaultReadingTime}) =>
+            defaultReadingTime({content, options: {wordsPerMinute: 150}}),
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
           // editUrl:
