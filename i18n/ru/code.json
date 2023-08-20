@@ -2,6 +2,9 @@
   "Mark Fomin": {
     "message": "Марк Фомин"
   },
+  "Contacts": {
+    "message": "Контакты"
+  },
   "home.visitMyBlog": {
     "message": "You can also visit my {blog}",
     "description": "The homepage message to ask the user to visit my blog"

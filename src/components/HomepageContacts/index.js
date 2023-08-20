@@ -50,7 +50,9 @@ function Contact({Svg, title, description, link, caption}) {
 export default function HomepageContacts() {
   return (
     <section className={styles.contactsSection}>
-      <h1>Contacts</h1>
+      <h1>
+        <Translate>Contacts</Translate>
+      </h1>
       <div className={"row " + styles.contactList}>
           {ContactList.map((props, idx) => (
             <Contact key={idx} {...props} />
