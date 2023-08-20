@@ -2,4 +2,6 @@
     border-radius: 30px;
     display: flex;
     justify-content: center;
+    margin-top: 2rem;
+    overflow: hidden;
 }

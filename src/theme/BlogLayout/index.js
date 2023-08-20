@@ -14,7 +14,7 @@ export default function BlogLayout(props) {
   );
   console.log("Telegram Post Linked", telegramPost);
   const comments = telegramPost ? (
-    <script async src="https://telegram.org/js/telegram-widget.js?22" data-telegram-discussion={telegramPost} data-comments-limit="5" data-color="29B127" data-dark-color="72E350"></script>
+    <script src="https://telegram.org/js/telegram-widget.js?22" data-telegram-discussion={telegramPost} data-comments-limit="5" data-color="29B127" data-dark-color="72E350"></script>
   ) : (
     <div><Translate>Comments to this post are disabled</Translate></div>
   );
