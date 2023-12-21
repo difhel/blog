@@ -12,7 +12,9 @@ export function Carousel(props) {
         width: '100%',
         textAlign: 'center',
         display: 'block',
-        borderRadius: '0 0 12px 12px'
+        borderRadius: '0 0 12px 12px',
+        justifySelf: 'flex-end',
+        padding: '6px'
     }
 
     const divStyle = {
@@ -20,7 +22,8 @@ export function Carousel(props) {
         alignItems: 'center',
         justifyContent: 'center',
         backgroundSize: 'cover',
-        height: '400px'
+        height: '400px',
+        flexGrow: 1
     }
 
     return (

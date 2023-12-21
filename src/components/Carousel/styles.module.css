@@ -6,3 +6,10 @@
     background: var(--ifm-color-secondary-darkest);
     border-radius: 12px;
 }
+
+.reactSlideshowContainer div[aria-roledescription=slide] > div {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+
+}
