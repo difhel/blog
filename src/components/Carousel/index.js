@@ -7,12 +7,12 @@ export function Carousel(props) {
 
     const spanStyle = {
         // padding: '20px',
-        background: '#efefef',
-        color: '#000000',
+        background: 'var(--ifm-hero-background-color)',
+        color: 'var(--ifm-hero-text-color)',
         width: '100%',
         textAlign: 'center',
         display: 'block',
-        // alignSelf: 'flex-end',
+        borderRadius: '0 0 12px 12px'
     }
 
     const divStyle = {
@@ -28,7 +28,8 @@ export function Carousel(props) {
             <Slide autoplay={false} transitionDuration={250}>
                 {slideImages.map((slideImage, index) => (
                     <div key={index}>
-                        <div style={{ ...divStyle, 'backgroundImage': `url(${slideImage.url})` }}>
+                        <div style={{ ...divStyle}}>
+                            <img src={slideImage.url} alt={slideImage.caption} style={{height: '100%'}} />
                         </div>
                         <span style={spanStyle}>{slideImage.caption}</span>
                     </div>
