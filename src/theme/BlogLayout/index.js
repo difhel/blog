@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
 import clsx from 'clsx';
 import Layout from '@theme/Layout';
 import BlogSidebar from '@theme/BlogSidebar';
@@ -56,7 +57,7 @@ export default function BlogLayout(props) {
             itemType="http://schema.org/Blog">
             {children}
             {
-              location.href.endsWith("blog") ? null : (
+              ExecutionEnvironment.canUseDOM && location.href.endsWith("blog") ? null : (
                 <div className={clsx(styles.telegramComments)}>
                   {comments}
                 </div>
