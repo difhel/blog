@@ -2,7 +2,8 @@ import { rewrite } from '@vercel/edge';
 
 function redirect(newUrl: string, baseUrl: URL) {
   const key = `?redirect_key=${Math.random().toString(16).slice(2)}`;
-  return rewrite(new URL(newUrl + baseUrl.pathname + key, baseUrl), { status: 302 });
+  const redirectUrl = new URL(newUrl + baseUrl.pathname + key, baseUrl);
+  return rewrite(baseUrl, { status: 302, headers: { Location: redirectUrl.href } });
 }
 
 export default function middleware(request: Request) {
