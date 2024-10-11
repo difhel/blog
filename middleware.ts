@@ -2,6 +2,11 @@ import { rewrite } from '@vercel/edge';
 
 export default function middleware(request: Request) {
   const url = new URL(request.url);
+
+  if (url.pathname.startsWith("/ru/en") || url.pathname.startsWith("/en/ru")) {
+    // When user switch their language
+    url.pathname.replace("/ru/en", "");
+  }
   if (url.pathname.startsWith("/ru") || url.pathname.startsWith("/en")) {
     return undefined;
   }
