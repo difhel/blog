@@ -1,7 +1,8 @@
 import { rewrite } from '@vercel/edge';
 
 function redirect(newUrl: string, baseUrl: URL) {
-  const key = `?redirect_key=${Math.random().toString(16).slice(2)}`;
+  // const key = `?redirect_key=${Math.random().toString(16).slice(2)}`;
+  const key = '';
   const redirectUrl = new URL(newUrl + baseUrl.pathname + key, baseUrl);
   return rewrite(baseUrl, { status: 302, headers: { Location: redirectUrl.href } });
 }
@@ -18,10 +19,6 @@ export default function middleware(request: Request) {
 
   if (acceptLanguage.includes('ru-RU')) {
     return redirect('/ru', url);
-  }
- 
-  if (url.pathname.startsWith('/z')) {
-    return rewrite(new URL('https://службапоконтракту.рф'));
   }
 
   return redirect('/en', url);
