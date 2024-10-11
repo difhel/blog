@@ -14,7 +14,7 @@ const config = {
   url: 'https://difhel.dev',
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
-  baseUrl: '/',
+  baseUrl: process.env.DOCUSAURUS_CURRENT_LOCALE === 'ru' ? '/ru' : '/en',
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
