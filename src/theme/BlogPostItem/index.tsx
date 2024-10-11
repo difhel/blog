@@ -22,13 +22,13 @@ export default function BlogPostItem({
   return (
     <BlogPostItemContainer className={clsx(containerClassName, className)}>
       <BlogPostItemHeader />
-      {isBlogPostPage && <BlogPostItemContent>{children}</BlogPostItemContent>}
       {!isBlogPostPage && (
         <>
           <img src={assets.image} className="article-feed-image" alt={frontMatter.title} />
           <div dangerouslySetInnerHTML={{ __html: (frontMatter as any).cutHtml }}></div>
         </>
       )}
+      <BlogPostItemContent>{children}</BlogPostItemContent>
       <BlogPostItemFooter />
     </BlogPostItemContainer>
   );

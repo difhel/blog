@@ -5,9 +5,10 @@ title: "Cython'им fastapi-проект: сравниваем скорость 
 authors: difhel
 tags: [dev, python, cython]
 image: ./cover.png 
+cutHtml: Ускоряем API на Python (fastapi) с помощью Cython и компилируем его в единый бинарник
 telegram: difhel_b/39
 ---
-
+<!-- truncate -->
 ## Что такое fastapi?
 [fastapi](https://fastapi.tiangolo.com/) - имхо, самый лучший фреймворк для веб-разработки на Python, основными фичами которого являются:
 - высокая производительность относительно других фреймворков на Python за счет использования starlette и uvicorn в качестве ASGI-сервера, [сравним по скорости с фреймворками на Go и NodeJS](https://fastapi.tiangolo.com/benchmarks/)
