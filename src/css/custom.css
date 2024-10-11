@@ -31,3 +31,14 @@
   --ifm-color-secondary-darkest: #3f3f3f;
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
 }
+
+.article-feed-item {
+  border: 1px solid var(--ifm-color-secondary-darkest);
+  padding: 1rem;
+  border-radius: 1rem;
+}
+
+.article-feed-image {
+  width: 100%;
+  border-radius: 0.5rem;
+}
