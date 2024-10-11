@@ -5,7 +5,7 @@ export default function middleware(request: Request) {
   if (url.pathname.startsWith("/ru")) {
     return undefined;
   }
-  console.log(request, request.headers);
+  console.log(JSON.stringify(request), JSON.stringify(request.headers));
   return undefined;
   const acceptLanguage = request.headers["Accept-Language"] as string;
 
