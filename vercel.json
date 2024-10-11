@@ -1,7 +1,7 @@
 {
     "rewrites": [
       {
-        "source": "/((?!ru|en).*)",
+        "source": "/:path((?!ru|en).*)",
         "has": [
           {
             "type": "header",
@@ -12,7 +12,7 @@
         "destination": "/ru/:path*"
       },
       {
-        "source": "/((?!ru|en).*)",
+        "source": "/:path((?!ru|en).*)",
         "destination": "/en/:path*"
       }
     ]
