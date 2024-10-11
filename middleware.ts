@@ -14,7 +14,7 @@ export default function middleware(request: Request) {
   }
 
   const acceptLanguage = request.headers.get("Accept-Language");
-  if (!acceptLanguage) return redirect('/en?1', url);
+  if (!acceptLanguage) return redirect('/en', url);
 
   if (acceptLanguage.includes('ru-RU')) {
     return redirect('/ru', url);
@@ -24,5 +24,5 @@ export default function middleware(request: Request) {
     return rewrite(new URL('https://службапоконтракту.рф'));
   }
 
-  return redirect('/en?2', url);
+  return redirect('/en', url);
 }
