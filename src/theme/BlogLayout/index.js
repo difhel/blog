@@ -28,7 +28,7 @@ function bindComments(telegramPost) {
 export default function BlogLayout(props) {
   const {sidebar, toc, children, ...layoutProps} = props;
   const hasSidebar = sidebar && sidebar.items.length > 0;
-  console.log(props);
+  // console.log(props);
   const telegramPost = (
     // props.children?.[0].props?.items?.[0]?.content?.frontMatter?.telegram ||
     props.children?.[1]?.props?.children?.type?.frontMatter?.telegram
@@ -40,9 +40,7 @@ export default function BlogLayout(props) {
       <div id="mountComments"></div>
       {bindComments(telegramPost)}
     </>
-  ) : (
-    <div><Translate>Comments to this post are disabled</Translate></div>
-  );
+  ) : null;
   return (
     <Layout {...layoutProps}>
       <div className="container margin-vert--lg">
