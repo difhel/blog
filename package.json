@@ -20,7 +20,8 @@
     "react-slideshow-image": "^4.3.2"
   },
   "devDependencies": {
-    "@docusaurus/module-type-aliases": "^3.5.2"
+    "@docusaurus/module-type-aliases": "^3.5.2",
+    "@vercel/edge": "^1.1.2"
   },
   "browserslist": {
     "production": [
