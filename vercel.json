@@ -1,0 +1,19 @@
+{
+    "rewrites": [
+      {
+        "source": "/:path((?!((ru)|(en))/).*)",
+        "has": [
+          {
+            "type": "header",
+            "key": "accept-language",
+            "value": "(ru-RU)"
+          }
+        ],
+        "destination": "/ru/:path*"
+      },
+      {
+        "source": "/:path((?!((ru)|(en))/).*)",
+        "destination": "/en/:path*"
+      }
+    ]
+  }
