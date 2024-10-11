@@ -8,7 +8,7 @@
     "build-internal": "docusaurus build",
     "build:en": "npm run build-internal -- --locale en --out-dir build/en",
     "build:ru": "npm run build-internal -- --locale ru --out-dir build/ru",
-    "build": "npm run build:en && npm run build:ru",
+    "build": "npm run build-internal",
     "swizzle": "docusaurus swizzle",
     "deploy": "docusaurus deploy",
     "clear": "docusaurus clear",
