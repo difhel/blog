@@ -28,8 +28,11 @@ const config = {
   // metadata like html lang. For example, if your site is Chinese, you may want
   // to replace "en" with "zh-Hans".
   i18n: {
-    defaultLocale: 'Autodetect',
-    locales: ['en', 'ru', 'Autodetect'],
+    // en-US is a default language that is not really used on production.
+    // It is used to move english version of the site to /en, not /.
+    // In the `middleware.ts` all requests to / are rewriting either to /en or /ru.
+    defaultLocale: 'en-US',
+    locales: ['en', 'ru'],
   },
 
   presets: [
