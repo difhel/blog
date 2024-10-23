@@ -5,7 +5,10 @@
   "scripts": {
     "docusaurus": "docusaurus",
     "start": "docusaurus start",
-    "build": "docusaurus build",
+    "build-internal": "docusaurus build",
+    "build:en": "npm run build-internal -- --locale en --out-dir build/en",
+    "build:ru": "npm run build-internal -- --locale ru --out-dir build/ru",
+    "build": "npm run build-internal",
     "swizzle": "docusaurus swizzle",
     "deploy": "docusaurus deploy",
     "clear": "docusaurus clear",
@@ -20,7 +23,8 @@
     "react-slideshow-image": "^4.3.2"
   },
   "devDependencies": {
-    "@docusaurus/module-type-aliases": "^3.5.2"
+    "@docusaurus/module-type-aliases": "^3.5.2",
+    "@vercel/edge": "^1.1.2"
   },
   "browserslist": {
     "production": [
