@@ -14,6 +14,10 @@ export default function middleware(request: Request) {
     return undefined;
   }
 
+  if (url.pathname.startsWith("/get/")) {
+    return rewrite(new URL("/en" + url.pathname, url), { status: 200 });
+  }
+
   const acceptLanguage = request.headers.get("Accept-Language");
   if (!acceptLanguage) return redirect('/en', url);
 
