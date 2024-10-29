@@ -14,7 +14,7 @@ const ContactList = [
     title: 'VK',
     Svg: require('@site/static/img/vk_logo.svg').default,
     description: 'VK is a Russian online social media',
-    link: "https://vk.com/superdev",
+    link: "https://vk.com/id1",
     caption: "@superdev"
   },
   {
