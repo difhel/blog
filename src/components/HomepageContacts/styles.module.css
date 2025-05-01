@@ -1,5 +1,5 @@
 .heroBanner {
-  background: linear-gradient(180deg, #28ff001a 100%, #28ff001a 0), url(/static/img/bg.jpg) 50%/cover no-repeat;
+  background: linear-gradient(180deg, #0026ff57 100%, #28ff001a 0), url(/static/img/bg.jpg) 50%/cover no-repeat;
   min-height: calc(100vh - var(--ifm-navbar-height));
   overflow: hidden;
   padding: 0;

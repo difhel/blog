@@ -21,16 +21,24 @@
     "message": "Мессенджер Telegram",
     "description": "Подпись в блоке контактов"
   },
-  "VK is a Russian online social media": {
-    "message": "ВКонтакте - российская социальная сеть",
+  "Let's connect and build something great together!": {
+    "message": "Отправляйте коннект, чтобы следить за карьерными успехами!",
     "description": "Подпись в блоке контактов"
   },
-  "Mastodon is a self-hosted social networking service": {
-    "message": "Mastodon - распределенная социальная сеть",
+  "Some shitposting": {
+    "message": "Что там в этом вашем твиттере...",
     "description": "Подпись в блоке контактов"
   },
   "The old fashioned way!": {
     "message": "По старинке",
+    "description": "Подпись в блоке контактов"
+  },
+  "Some technical articles that are not published on /blog": {
+    "message": "Некоторые технические статьи, которые не публикуются на /blog",
+    "description": "Подпись в блоке контактов"
+  },
+  "Some code": {
+    "message": "Немного кода",
     "description": "Подпись в блоке контактов"
   },
   "theme.ErrorPageContent.title": {

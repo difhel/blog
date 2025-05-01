@@ -34,7 +34,7 @@ const ContactList = [
   {
     title: 'Habr',
     Svg: require('@site/static/img/habr_logo.svg').default,
-    description: "Some articles",
+    description: "Some technical articles that are not published on /blog",
     link: "https://habr.com/ru/users/difhel/",
     caption: "@difhel"
   },
