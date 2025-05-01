@@ -11,18 +11,18 @@ const ContactList = [
     caption: "@difhel"
   },
   {
-    title: 'VK',
-    Svg: require('@site/static/img/vk_logo.svg').default,
-    description: 'VK is a Russian online social media',
-    link: "https://vk.com/superdev",
-    caption: "@superdev"
+    title: 'LinkedIn',
+    Svg: require('@site/static/img/linkedin_logo.svg').default,
+    description: 'Let\'s connect and build something great together!',
+    link: "https://linkedin.com/in/difhel",
+    caption: "@difhel"
   },
   {
-    title: 'Mastodon.social',
-    Svg: require('@site/static/img/mastodon_logo.svg').default,
-    description: 'Mastodon is a self-hosted social networking service',
-    link: "https://mastodon.social/@difhel",
-    caption: "@difhel@mastodon.social"
+    title: 'X (Twitter)',
+    Svg: require('@site/static/img/x_logo.svg').default,
+    description: 'Some shitposting',
+    link: "https://x.com/difhel",
+    caption: "@difhel"
   },
   {
     title: 'Email',
@@ -31,18 +31,33 @@ const ContactList = [
     link: "mailto:mark@difhel.dev",
     caption: "mark@difhel.dev"
   },
+  {
+    title: 'Habr',
+    Svg: require('@site/static/img/habr_logo.svg').default,
+    description: "Some articles",
+    link: "https://habr.com/ru/users/difhel/",
+    caption: "@difhel"
+  },
+  {
+    title: 'GitHub',
+    Svg: require('@site/static/img/github_logo.svg').default,
+    description: "Some code",
+    link: "https://github.com/difhel",
+    caption: "@difhel"
+  }
 ];
 
 function Contact({Svg, title, description, link, caption}) {
   return (
-    <div className={'col ' + styles.contactItemCol}>
-      <div className={"text--center " + styles.contactItem}>
-        <Svg className={styles.contactSvg} role="img" />
-        <span>{title}</span>
+    <div className={styles.contactItemCol}>
+      <div className={styles.contactItemLeft}>
+        <Svg className={styles.contactSvg} role="img" style={title === 'Habr' ? {borderRadius: '50%'} : {}} />
       </div>
-      <small className="text-muted"><Translate>{description}</Translate></small>
-      <br />
-      <a href={link}>{caption}</a>
+      <div className={styles.contactItemRight}>
+        <span className={styles.contactItemTitle}>{title}</span>
+        <small className="text-muted"><Translate>{description}</Translate></small>
+        <a href={link}>{caption}</a>
+      </div>
     </div>
   );
 }
@@ -53,7 +68,7 @@ export default function HomepageContacts() {
       <h1>
         <Translate>Contacts</Translate>
       </h1>
-      <div className={"row " + styles.contactList}>
+      <div className={styles.contactList}>
           {ContactList.map((props, idx) => (
             <Contact key={idx} {...props} />
           ))}
