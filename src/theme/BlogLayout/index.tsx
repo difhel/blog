@@ -3,7 +3,6 @@ import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
 import clsx from 'clsx';
 import Layout from '@theme/Layout';
 import BlogSidebar from '@theme/BlogSidebar';
-import Translate from '@docusaurus/Translate';
 import styles from './styles.module.css';
 
 function bindComments(telegramPost) {

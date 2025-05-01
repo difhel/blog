@@ -15,7 +15,7 @@ export function Carousel(props) {
         borderRadius: '0 0 12px 12px',
         justifySelf: 'flex-end',
         padding: '6px'
-    }
+    } as const;
 
     const divStyle = {
         display: 'flex',
@@ -24,7 +24,7 @@ export function Carousel(props) {
         backgroundSize: 'cover',
         height: '400px',
         flexGrow: 1
-    }
+    } as const;
 
     return (
         <div className={"slide-container" + " " + styles.reactSlideshowContainer}>

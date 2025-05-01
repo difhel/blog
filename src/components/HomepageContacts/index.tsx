@@ -40,7 +40,7 @@ function Contact({Svg, title, description, link, caption}) {
         <Svg className={styles.contactSvg} role="img" />
         <span>{title}</span>
       </div>
-      <small class="text-muted"><Translate>{description}</Translate></small>
+      <small className="text-muted"><Translate>{description}</Translate></small>
       <br />
       <a href={link}>{caption}</a>
     </div>
