@@ -49,3 +49,8 @@
   background-color: var(--ifm-color-secondary-darkest-blur);
   backdrop-filter: blur(1rem);
 }
+
+.navbar-sidebar {
+  height: 100vh;
+  height: 100dvh;
+}
