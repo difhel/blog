@@ -1,0 +1,224 @@
+---
+slug: vscode-extensions
+date: 2025-08-24T19:33
+title: My VS Code extensions
+authors: difhel
+tags: [blog, dev, vscode]
+image: ./cover.png
+cutHtml: I've been using VS Code primarily for over 6 years now and I want to share my top extensions that I use in my work.
+telegram: difhel_b/159
+---
+<!-- truncate -->
+
+## Intro
+There is growing interest in switching to VSCode as a primary IDE, as it is open-source, lightweight, and extensible compared to the bloated IDEs from JetBrains.
+
+Moreover, the popularity of AI tools such as Cursor (VS Code–based) also adds a reason to learn how to build useful workflows in VS Code–based apps.
+
+By the way, JetBrains' products also cannot be used in some countries due to sanctions—because, of course, users are always held responsible for the actions of their governments 🤡, and JetBrains, [a company founded in Russia](https://en.wikipedia.org/wiki/JetBrains), instead of formally complying with software export rules, makes every effort to prevent developers from using their products—detecting VPNs, revoking licenses, and ultimately forcing Russian developers to resort to unverified pirated copies or switch to other tools.
+
+I've been using VS Code primarily for over 6 years now and I want to share my top extensions that I use in my work.
+
+Spoiler: there won't be any crazy recipes with maximum customization here, VSCode is not neovim 😁
+
+Just the basic extensions for work. For each extension I wrote why I use it. Of course, these extensions can do much more; I just highlight my main pain points in VS Code, which are solved by these extensions. Let's go!
+## Web Development Extensions
+
+### React CSS Modules
+![React CSS Modules](react-css-modules.png)
+**Install:** https://marketplace.visualstudio.com/items?itemName=viijay-kr.react-ts-css
+
+**Why:** For some reason, TypeScript declarations for CSS modules interfere with the source code, preventing Cmd+Click from working on classnames like this:
+```tsx
+<div className={styles.banana}>Alas</div>
+```
+There is also a discussion on GitHub: [https://github.com/vitejs/vite/discussions/5444](https://github.com/vitejs/vite/discussions/5444)
+![React CSS Modules GitHub Discussion](react-css-modules-github-discussion.png)
+
+### Auto Rename Tags
+![Auto Rename Tags](auto-rename-tags.png)
+**Install:** https://marketplace.visualstudio.com/items?itemName=formulahendry.auto-rename-tag
+
+**Why:** Easily rename closing tags while editing the opening tag.
+
+import autoRenameTagsDemo from './auto-rename-tags-demo.mov';
+
+<video
+  autoPlay
+  muted
+  loop
+  width="100%"
+  src={autoRenameTagsDemo}
+/>
+
+### ESLint
+![ESLint](eslint.png)
+**Install:** https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint
+
+**Why:** See linter warnings for your JavaScript and TypeScript code directly in the IDE, blazingly fast.
+![ESLint Example](eslint-example.png)
+
+### Import Cost
+![Import Cost](import-cost.png)
+**Install:** https://marketplace.visualstudio.com/items?itemName=wix.vscode-import-cost
+
+**Why:** Shows the impact on bundle size from imports.
+![Import Cost Example](import-cost-example.png)
+
+### JavaScript and TypeScript Nightly
+![JavaScript and TypeScript Nightly](javascript-typescript-nightly.png)
+**Install:** https://marketplace.visualstudio.com/items?itemName=ms-vscode.vscode-typescript-next
+
+**Why:** I often use the newest TypeScript features in my projects, but the built-in version lags behind.
+
+### Path Intellisense
+![Path Intellisense](path-intellisense.png)
+**Install:** https://marketplace.visualstudio.com/items?itemName=christian-kohler.path-intellisense
+
+**Why:** Improved path autocompletion.
+
+### SCSS Formatter
+![SCSS Formatter](scss-formatter.png)
+**Install:** https://marketplace.visualstudio.com/items?itemName=sibiraj-s.vscode-scss-formatter
+
+**Why:** A nice SCSS/CSS formatter powered by Prettier.
+
+### SCSS IntelliSense
+![SCSS IntelliSense](scss-intellisense.png)
+**Install:** https://marketplace.visualstudio.com/items?itemName=mrmlnc.vscode-scss
+
+**Why:** Autocomplete for SCSS variables, mixins, and functions.
+
+### Prisma
+![Prisma](prisma.png)
+**Install:** https://marketplace.visualstudio.com/items?itemName=Prisma.prisma
+
+**Why:** Syntax highlighting for `.prisma` files, used by Prisma ORM.
+
+## Git and Version Control Extensions
+
+### Git History
+![Git History](git-history.png)
+**Install:** https://marketplace.visualstudio.com/items?itemName=donjayamanne.githistory
+
+**Why:** View line history to quickly identify who to contact regarding the code you're working on.
+![Git History Example](git-history-example.png)
+
+### GitHub Pull Requests
+![GitHub Pull Requests](github-pull-requests.png)
+**Install:** https://marketplace.visualstudio.com/items?itemName=GitHub.vscode-pull-request-github
+
+**Why:** Quickly create pull requests from branches and view code review comments directly in the IDE.
+![GitHub Pull Requests Example](github-pull-requests-example.png)
+
+### GitLens — Git supercharged
+![GitLens](gitlens.png)
+**Install:** https://marketplace.visualstudio.com/items?itemName=eamodio.gitlens
+
+**Why:** Extended Git support in VS Code.
+
+## Productivity and Utility Extensions
+
+### CodeSnap
+![CodeSnap](codesnap.png)
+**Install:** https://marketplace.visualstudio.com/items?itemName=adpyke.codesnap
+
+**Why:** Quickly save screenshots of your code.
+![CodeSnap Example](codesnap-example.png)
+
+### Peacock
+![Peacock](peacock.png)
+**Install:** https://marketplace.visualstudio.com/items?itemName=johnpapa.vscode-peacock
+
+**Why:** Easily manage multiple VS Code windows by coloring the title bars differently for each project.
+![Peacock Example](peacock-example.png)
+
+### Code Spell Checker
+![Code Spell Checker](code-spell-checker.png)
+**Install:** https://marketplace.visualstudio.com/items?itemName=streetsidesoftware.code-spell-checker
+
+**Why:** Finds misspellings and errors in your text, variable names, etc. Also supports additional languages (e.g., Russian) as add-ons.
+
+### svgo
+![svgo](svgo.png)
+**Install:** https://marketplace.visualstudio.com/items?itemName=1000ch.svgo
+
+**Why:** Easily optimize SVGs directly in the IDE.
+![svgo Example](svgo-example.png)
+
+## File and Data Handling Extensions
+
+### Docker
+![Docker](docker.png)
+**Install:** https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-docker
+
+**Why:** Syntax highlighting for Dockerfiles.
+
+### Rainbow CSV
+![Rainbow CSV](rainbow-csv.png)
+**Install:** https://marketplace.visualstudio.com/items?itemName=mechatroner.rainbow-csv
+
+**Why:** Highlights columns in CSV files for better readability.
+![Rainbow CSV Example](rainbow-csv-example.png)
+
+### SQLite Viewer
+![SQLite Viewer](sqlite-viewer.png)
+**Install:** https://marketplace.visualstudio.com/items?itemName=qwtel.sqlite-viewer
+
+**Why:** A quick and easy SQLite viewer.
+![SQLite Viewer Example](sqlite-viewer-example.png)
+
+## Python Development Extensions
+
+### Python
+![Python](python.png)
+**Install:** https://marketplace.visualstudio.com/items?itemName=ms-python.python
+
+**Why:** Python support for VS Code.
+
+### Python Debugger
+![Python Debugger](python-debugger.png)
+**Install:** https://marketplace.visualstudio.com/items?itemName=ms-python.debugpy
+
+**Why:** Advanced Python debugger.
+
+### Pylance
+![Pylance](pylance.png)
+**Install:** https://marketplace.visualstudio.com/items?itemName=ms-python.vscode-pylance
+
+**Why:** Supercharges your Python IntelliSense with rich type information.
+
+## C/C++ and Build Tool Extensions
+
+### CMake
+![CMake](cmake.png)
+**Install:** https://marketplace.visualstudio.com/items?itemName=twxs.cmake
+
+**Why:** Basic support for CMake files.
+
+### CMake Tools
+![CMake Tools](cmake-tools.png)
+**Install:** https://marketplace.visualstudio.com/items?itemName=ms-vscode.cmake-tools
+
+**Why:** Advanced support for CMake: run your CMake projects from the UI.
+
+### clangd
+![clangd](clangd.png)
+**Install:** https://marketplace.visualstudio.com/items?itemName=llvm-vs-code-extensions.vscode-clangd
+
+**Why:** Advanced code completion and language support for C/C++. I recommend using clang instead of gcc for its better stability and frequent updates. clangd is the language server that comes with clang, and this extension enables it in VS Code.
+
+### C/C++
+![C/C++](c-cpp.png)
+**Install:** https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools
+
+**Why:** Basic support for C/C++ languages, including IntelliSense.
+
+### C/C++ Themes
+![C/C++ Themes](c-cpp-themes.png)
+**Install:** https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools-themes
+
+**Why:** Better semantic colorization instead of just the default syntactic/lexical-based one.
+
+---
+That’s all for now. Feel free to share other extensions you find useful in the comments.
