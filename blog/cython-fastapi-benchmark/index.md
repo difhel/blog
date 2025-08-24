@@ -5,7 +5,7 @@ title: "Cython'им fastapi-проект: сравниваем скорость 
 authors: difhel
 tags: [dev, python, cython]
 image: ./cover.png 
-cutHtml: Ускоряем API на Python (fastapi) с помощью Cython и компилируем его в единый бинарник
+description: Ускоряем API на Python (fastapi) с помощью Cython и компилируем его в единый бинарник
 telegram: difhel_b/39
 ---
 <!-- truncate -->

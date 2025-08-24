@@ -25,7 +25,7 @@ export default function BlogPostItem({
       {!isBlogPostPage && (
         <>
           <img src={assets.image} className="article-feed-image" alt={frontMatter.title} />
-          <div dangerouslySetInnerHTML={{ __html: (frontMatter as any).cutHtml }}></div>
+          <div dangerouslySetInnerHTML={{ __html: (frontMatter as any).cutHtml || frontMatter.description }}></div>
         </>
       )}
       <BlogPostItemContent>{children}</BlogPostItemContent>
