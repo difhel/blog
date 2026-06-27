@@ -6,7 +6,7 @@ import Translate, { translate } from '@docusaurus/Translate';
 import HomepageContacts from '@site/src/components/HomepageContacts';
 import HomepageTalks from '@site/src/components/HomepageTalks';
 import SideRays from '@site/src/components/SideRays';
-import logo from './../../static/img/avatar.jpg';
+import logo from './../../static/img/avatar.webp';
 
 import styles from './index.module.css';
 

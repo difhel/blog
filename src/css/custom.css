@@ -44,8 +44,11 @@
 }
 
 .article-feed-image {
+  aspect-ratio: 1074 / 480;
   width: 100%;
+  height: auto;
   border-radius: 0.5rem;
+  object-fit: cover;
 }
 
 .navbar,
