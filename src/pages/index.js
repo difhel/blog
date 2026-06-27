@@ -4,6 +4,7 @@ import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import Layout from '@theme/Layout';
 import Translate, { translate } from '@docusaurus/Translate';
 import HomepageContacts from '@site/src/components/HomepageContacts';
+import HomepageTalks from '@site/src/components/HomepageTalks';
 import SideRays from '@site/src/components/SideRays';
 import logo from './../../static/img/avatar.jpg';
 
@@ -53,6 +54,7 @@ export default function Home() {
       <main>
         {/* <HomepageWhoAmiI /> */}
         <div className='container'>
+          <HomepageTalks />
           <HomepageContacts />
         </div>
 

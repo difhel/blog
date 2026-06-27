@@ -5,6 +5,48 @@
   "Contacts": {
     "message": "Контакты"
   },
+  "homepage.talks.title": {
+    "message": "Выступления"
+  },
+  "homepage.talks.by": {
+    "message": "от"
+  },
+  "homepage.talks.telegramGifts.title": {
+    "message": "Поддержка Telegram Gifts в MyTonWallet: от Fragment Minter до интерфейса кошелька"
+  },
+  "homepage.talks.telegramGifts.event": {
+    "message": "HiDeFi"
+  },
+  "homepage.talks.telegramGifts.host": {
+    "message": "TON Piter Hub"
+  },
+  "homepage.talks.telegramGifts.date": {
+    "message": "18 октября 2025"
+  },
+  "homepage.talks.telegramGifts.location": {
+    "message": "офлайн, Санкт-Петербург, Россия"
+  },
+  "homepage.talks.telegramGifts.description": {
+    "message": "Технический обзор того, как Telegram Gifts можно хранить и использовать как on-chain NFT: более безопасная модель владения, автоматическое отслеживание новых коллекций и UX-решения для отображения подарков внутри MyTonWallet."
+  },
+  "homepage.talks.tonUx.title": {
+    "message": "Ускоряем UX в TON-приложениях: как сделать идеальный фронтенд для TMA"
+  },
+  "homepage.talks.tonUx.event": {
+    "message": "TON Builders Meetup"
+  },
+  "homepage.talks.tonUx.host": {
+    "message": "TON Foundation"
+  },
+  "homepage.talks.tonUx.date": {
+    "message": "26 июля 2025"
+  },
+  "homepage.talks.tonUx.location": {
+    "message": "офлайн, Москва, Россия"
+  },
+  "homepage.talks.tonUx.description": {
+    "message": "Технический разбор frontend-подходов, которые улучшают UX и конверсию в TON-приложениях: Web Vitals, кеширование, lazy loading, интеграция с UI Telegram, инструменты отладки, интернационализация, CSP и optimistic UI."
+  },
   "home.visitMyBlog": {
     "message": "You can also visit my {blog}",
     "description": "The homepage message to ask the user to visit my blog"
