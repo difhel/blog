@@ -48,29 +48,30 @@ export default function NavbarLayout({ children }: Props): ReactNode {
   }, [mobileSidebar]);
 
   return (
-    <nav
-      ref={navbarRef}
-      aria-label={translate({
-        id: 'theme.NavBar.navAriaLabel',
-        message: 'Main',
-        description: 'The ARIA label for the main navigation',
-      })}
-      className={clsx(
-        ThemeClassNames.layout.navbar.container,
-        'navbar',
-        'navbar--fixed-top',
-        hideOnScroll && [
-          styles.navbarHideable,
-          !isNavbarVisible && styles.navbarHidden,
-        ],
-        {
-          'navbar--dark': style === 'dark',
-          'navbar--primary': style === 'primary',
-          'navbar-sidebar--show': mobileSidebar.shown,
-        },
-      )}>
-      {children}
+    <div className={clsx('navbar-shell', {'navbar-sidebar--show': mobileSidebar.shown})}>
+      <nav
+        ref={navbarRef}
+        aria-label={translate({
+          id: 'theme.NavBar.navAriaLabel',
+          message: 'Main',
+          description: 'The ARIA label for the main navigation',
+        })}
+        className={clsx(
+          ThemeClassNames.layout.navbar.container,
+          'navbar',
+          'navbar--fixed-top',
+          hideOnScroll && [
+            styles.navbarHideable,
+            !isNavbarVisible && styles.navbarHidden,
+          ],
+          {
+            'navbar--dark': style === 'dark',
+            'navbar--primary': style === 'primary',
+          },
+        )}>
+        {children}
+      </nav>
       <NavbarMobileSidebar />
-    </nav>
+    </div>
   );
 }
