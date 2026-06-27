@@ -36,7 +36,7 @@ const config: Config = {
     // It is used to move english version of the site to /en, not /.
     // In the `middleware.ts` all requests to / are rewriting either to /en or /ru.
     defaultLocale: 'en-US',
-    locales: ['en', 'ru'],
+    locales: ['en-US', 'en', 'ru'],
   },
 
   presets: [
