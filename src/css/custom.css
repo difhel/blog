@@ -6,6 +6,12 @@
 
 /* You can override the default Infima variables here. */
 :root {
+  --liquid-glass-radius: 999rem;
+  --liquid-glass-fallback-blur: 1rem;
+  --liquid-glass-frost: 0;
+  --liquid-glass-saturation: 1;
+  --liquid-glass-tint: transparent;
+  --liquid-glass-shadow-color: rgba(0, 0, 0, 0.32);
   --ifm-color-primary: #2e8555;
   --ifm-color-primary-dark: #29784c;
   --ifm-color-primary-darker: #277148;
@@ -21,6 +27,7 @@
 
 /* For readability concerns, you should choose a lighter palette in dark mode. */
 [data-theme='dark'] {
+  --liquid-glass-shadow-color: rgba(0, 0, 0, 0.5);
   --ifm-color-primary: #25c2a0;
   --ifm-color-primary-dark: #21af90;
   --ifm-color-primary-darker: #1fa588;
@@ -31,6 +38,8 @@
   --ifm-color-secondary-light: #3f3f3f;
   --ifm-color-secondary-darkest: #3f3f3f;
   --ifm-color-secondary-darkest-blur: #3f3f3fcc;
+  --ifm-background-color: #000 !important;
+  --ifm-background-surface-color: #161617 !important;
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
 }
 
@@ -45,12 +54,116 @@
   border-radius: 0.5rem;
 }
 
+.liquid-glass,
+.navbar,
+.navbar-sidebar {
+  position: relative;
+  border-radius: var(--liquid-glass-radius);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.2), transparent 42%),
+    var(--liquid-glass-tint);
+  backdrop-filter:
+    blur(var(--liquid-glass-fallback-blur))
+    saturate(var(--liquid-glass-saturation, 1));
+  -webkit-backdrop-filter:
+    blur(var(--liquid-glass-fallback-blur))
+    saturate(var(--liquid-glass-saturation, 1));
+  box-shadow:
+    0 0 2px 1px rgba(255, 255, 255, 0.25) inset,
+    0 0 10px 4px rgba(255, 255, 255, 0.15) inset,
+    0 8px 16px var(--liquid-glass-shadow-color);
+  isolation: isolate;
+}
+
+@supports (backdrop-filter: url('#liquid-glass-0')) {
+  .liquid-glass[data-liquid-glass-ready='true'],
+  .navbar[data-liquid-glass-ready='true'],
+  .navbar-sidebar[data-liquid-glass-ready='true'] {
+    backdrop-filter:
+      var(--liquid-glass-filter)
+      blur(var(--liquid-glass-fallback-blur))
+      saturate(var(--liquid-glass-saturation, 1));
+  }
+}
+
+@supports (-webkit-backdrop-filter: url('#liquid-glass-0')) {
+  .liquid-glass[data-liquid-glass-ready='true'],
+  .navbar[data-liquid-glass-ready='true'],
+  .navbar-sidebar[data-liquid-glass-ready='true'] {
+    -webkit-backdrop-filter:
+      var(--liquid-glass-filter)
+      blur(var(--liquid-glass-fallback-blur))
+      saturate(var(--liquid-glass-saturation, 1));
+  }
+}
+
+.liquid-glass-filter {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
 .navbar {
-  background-color: var(--ifm-color-secondary-darkest-blur);
-  backdrop-filter: blur(1rem);
+  position: sticky;
+  top: 0.5rem;
+  z-index: var(--ifm-z-index-fixed);
+  width: calc(100% - 1rem);
+  margin: 0.5rem;
+}
+
+.navbar__inner {
+  position: relative;
+  z-index: 1;
+}
+
+.navbar__toggle {
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  margin-right: 0.5rem;
+}
+
+.navbar__color-mode-toggle {
+  display: flex;
+  margin-left: 0.5rem;
 }
 
 .navbar-sidebar {
-  height: 100vh;
-  height: 100dvh;
+  --liquid-glass-radius: 1.5rem;
+  --liquid-glass-fallback-blur: 2rem;
+  --liquid-glass-saturation: 1.3;
+  --liquid-glass-tint: rgba(255, 255, 255, 0.985);
+  --liquid-glass-shadow-color: rgba(0, 0, 0, 0.2);
+  position: fixed;
+  top: calc(var(--ifm-navbar-height) + 0.5rem);
+  bottom: 0;
+  left: 0;
+  z-index: 1;
+  width: min(var(--ifm-navbar-sidebar-width), calc(100vw - 1rem));
+  height: calc(100vh - var(--ifm-navbar-height) - 1rem);
+  height: calc(100dvh - var(--ifm-navbar-height) - 1rem);
+  overflow: hidden;
+}
+
+[data-theme='dark'] .navbar-sidebar {
+  --liquid-glass-fallback-blur: 2.75rem;
+  --liquid-glass-tint: rgba(22, 22, 23, 0.94);
+  --liquid-glass-shadow-color: rgba(0, 0, 0, 0.72);
+  --ifm-menu-color: rgba(255, 255, 255, 0.88);
+  --ifm-menu-color-active: #4fddbf;
+  --ifm-menu-color-background-active: rgba(79, 221, 191, 0.12);
+  --ifm-menu-color-background-hover: rgba(255, 255, 255, 0.1);
+}
+
+.navbar-sidebar__items {
+  position: relative;
+  z-index: 1;
+  height: 100%;
+}
+
+.navbar-sidebar__item {
+  width: min(var(--ifm-navbar-sidebar-width), calc(100vw - 1rem));
 }

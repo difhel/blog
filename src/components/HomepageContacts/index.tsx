@@ -1,6 +1,7 @@
 import React from 'react';
 import styles from './styles.module.css';
 import Translate from '@docusaurus/Translate';
+import ShinyText from '@site/src/components/ShinyText';
 
 const ContactList = [
   {
@@ -66,7 +67,13 @@ export default function HomepageContacts() {
   return (
     <section className={styles.contactsSection}>
       <h1>
-        <Translate>Contacts</Translate>
+        <ShinyText
+          color="var(--ifm-heading-color, var(--ifm-font-color-base))"
+          shineColor="var(--ifm-color-primary-lightest)"
+          speed={2.4}
+          spread={120}>
+          <Translate>Contacts</Translate>
+        </ShinyText>
       </h1>
       <div className={styles.contactList}>
           {ContactList.map((props, idx) => (

@@ -9,8 +9,24 @@
   text-align: center;
   position: relative;
   overflow: hidden;
-  background: linear-gradient(180deg, rgba(51, 0, 255, 0.2) 100%, rgba(51, 0, 255, 0.2) 100%), url("/static/img/bg.jpg") no-repeat center center / cover;
-  min-height: calc(100vh - var(--ifm-navbar-height));
+  background: var(--ifm-background-color);
+  color: var(--ifm-font-color-base);
+  margin-top: calc(-1 * (var(--ifm-navbar-height) + 1rem));
+  min-height: 100vh;
+}
+
+.heroBanner :global(.hero__title) {
+  color: var(--ifm-font-color-base);
+}
+
+.heroRays {
+  position: absolute;
+  inset: 0;
+}
+
+.heroContent {
+  position: relative;
+  z-index: 1;
 }
 
 .metaContainerHome {

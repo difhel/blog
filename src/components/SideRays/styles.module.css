@@ -1,0 +1,12 @@
+.sideRaysContainer {
+  position: relative;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.sideRaysContainer canvas {
+  display: block;
+}
