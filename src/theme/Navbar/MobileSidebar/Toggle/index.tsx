@@ -1,8 +1,34 @@
 import React, { type ReactNode } from 'react';
 import { translate } from '@docusaurus/Translate';
 import { useNavbarMobileSidebar } from '@docusaurus/theme-common/internal';
-import IconClose from '@theme/Icon/Close';
-import IconMenu from '@theme/Icon/Menu';
+
+function SidebarToggleIcon(): ReactNode {
+  return (
+    <svg
+      aria-hidden="true"
+      className="navbar__sidebar-toggle-icon"
+      fill="none"
+      focusable="false"
+      height="24"
+      viewBox="0 0 24 24"
+      width="24"
+      xmlns="http://www.w3.org/2000/svg">
+      <path
+        d="M14.97 22.75H8.96997C3.53997 22.75 1.21997 20.43 1.21997 15V9C1.21997 3.57 3.53997 1.25 8.96997 1.25H14.97C20.4 1.25 22.72 3.57 22.72 9V15C22.72 20.43 20.41 22.75 14.97 22.75ZM8.96997 2.75C4.35997 2.75 2.71997 4.39 2.71997 9V15C2.71997 19.61 4.35997 21.25 8.96997 21.25H14.97C19.58 21.25 21.22 19.61 21.22 15V9C21.22 4.39 19.58 2.75 14.97 2.75H8.96997Z"
+        fill="currentColor"
+      />
+      <path
+        d="M14.97 22.75C14.56 22.75 14.22 22.41 14.22 22V2C14.22 1.59 14.56 1.25 14.97 1.25C15.38 1.25 15.72 1.59 15.72 2V22C15.72 22.41 15.39 22.75 14.97 22.75Z"
+        fill="currentColor"
+      />
+      <path
+        className="navbar__sidebar-toggle-arrow"
+        d="M7.96991 15.3109C7.77991 15.3109 7.58991 15.2409 7.43991 15.0909C7.14991 14.8009 7.14991 14.3209 7.43991 14.0309L9.46991 12.0009L7.43991 9.97086C7.14991 9.68086 7.14991 9.20086 7.43991 8.91086C7.72991 8.62086 8.20991 8.62086 8.49991 8.91086L11.0599 11.4709C11.3499 11.7609 11.3499 12.2409 11.0599 12.5309L8.49991 15.0909C8.35991 15.2409 8.16991 15.3109 7.96991 15.3109Z"
+        fill="currentColor"
+      />
+    </svg>
+  );
+}
 
 export default function MobileSidebarToggle(): ReactNode {
   const { shown, toggle } = useNavbarMobileSidebar();
@@ -19,16 +45,7 @@ export default function MobileSidebarToggle(): ReactNode {
       aria-expanded={shown}
       className="navbar__toggle clean-btn"
       type="button">
-      {shown ? (
-        <IconClose
-          aria-hidden
-          width={30}
-          height={30}
-          strokeWidth={1.5}
-        />
-      ) : (
-        <IconMenu />
-      )}
+      <SidebarToggleIcon />
     </button>
   );
 }

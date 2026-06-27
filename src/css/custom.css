@@ -126,6 +126,23 @@
   margin-right: 0.5rem;
 }
 
+.navbar__sidebar-toggle-icon {
+  display: block;
+  width: 1.5rem;
+  height: 1.5rem;
+  flex: 0 0 auto;
+}
+
+.navbar__sidebar-toggle-arrow {
+  transform-box: fill-box;
+  transform-origin: center;
+  transition: transform var(--ifm-transition-fast) ease;
+}
+
+.navbar__toggle[aria-expanded='true'] .navbar__sidebar-toggle-arrow {
+  transform: rotate(180deg);
+}
+
 .navbar__color-mode-toggle {
   display: flex;
   margin-left: 0.5rem;
