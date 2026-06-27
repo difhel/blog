@@ -22,7 +22,11 @@ const config: Config = {
   projectName: 'docusaurus', // Usually your repo name.
 
   onBrokenLinks: 'throw',
-  onBrokenMarkdownLinks: 'warn',
+  markdown: {
+    hooks: {
+      onBrokenMarkdownLinks: 'warn',
+    },
+  },
 
   // Even if you don't use internalization, you can use this field to set useful
   // metadata like html lang. For example, if your site is Chinese, you may want
@@ -32,7 +36,7 @@ const config: Config = {
     // It is used to move english version of the site to /en, not /.
     // In the `middleware.ts` all requests to / are rewriting either to /en or /ru.
     defaultLocale: 'en-US',
-    locales: ['en', 'ru'],
+    locales: ['en-US', 'en', 'ru'],
   },
 
   presets: [
@@ -84,7 +88,7 @@ const config: Config = {
         darkTheme: darkCodeTheme,
       },
       colorMode: {
-        respectPrefersColorScheme: true,
+        respectPrefersColorScheme: false,
       }
     },
 };

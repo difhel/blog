@@ -2,6 +2,48 @@
   "Mark Fomin": {
     "message": "Mark Fomin"
   },
+  "homepage.talks.title": {
+    "message": "Talks"
+  },
+  "homepage.talks.by": {
+    "message": "by"
+  },
+  "homepage.talks.telegramGifts.title": {
+    "message": "Building Telegram Gifts Support in MyTonWallet: From Fragment Minter to Wallet UI"
+  },
+  "homepage.talks.telegramGifts.event": {
+    "message": "HiDeFi"
+  },
+  "homepage.talks.telegramGifts.host": {
+    "message": "TON Piter Hub"
+  },
+  "homepage.talks.telegramGifts.date": {
+    "message": "October 18, 2025"
+  },
+  "homepage.talks.telegramGifts.location": {
+    "message": "offline, Saint Petersburg, Russia"
+  },
+  "homepage.talks.telegramGifts.description": {
+    "message": "A technical overview of how Telegram Gifts can be managed as on-chain NFTs, including safer ownership semantics, automatic tracking of new gift collections, and the UX decisions behind showing gifts inside MyTonWallet."
+  },
+  "homepage.talks.tonUx.title": {
+    "message": "Speeding up UX in TON applications: how to build the perfect frontend for TMA"
+  },
+  "homepage.talks.tonUx.event": {
+    "message": "TON Builders Meetup"
+  },
+  "homepage.talks.tonUx.host": {
+    "message": "TON Foundation"
+  },
+  "homepage.talks.tonUx.date": {
+    "message": "July 26, 2025"
+  },
+  "homepage.talks.tonUx.location": {
+    "message": "offline, Moscow, Russia"
+  },
+  "homepage.talks.tonUx.description": {
+    "message": "A deep dive into the frontend techniques that improve UX and conversion in TON apps, covering Web Vitals, caching strategy, lazy loading, Telegram UI integration, debugging tools, internationalization, CSP, and optimistic UI."
+  },
   "theme.ErrorPageContent.title": {
     "message": "This page crashed.",
     "description": "The title of the fallback page when the page crashed"

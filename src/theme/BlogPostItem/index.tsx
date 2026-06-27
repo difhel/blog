@@ -24,7 +24,12 @@ export default function BlogPostItem({
       <BlogPostItemHeader />
       {!isBlogPostPage && (
         <>
-          <img src={assets.image} className="article-feed-image" alt={frontMatter.title} />
+          <img
+            src={assets.image}
+            className="article-feed-image"
+            alt={frontMatter.title}
+            loading="lazy"
+          />
           <div dangerouslySetInnerHTML={{ __html: (frontMatter as any).cutHtml || frontMatter.description }}></div>
         </>
       )}

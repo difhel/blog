@@ -1,0 +1,65 @@
+.shinyText {
+  display: inline-block;
+  color: var(--shiny-text-color);
+  background-image:
+    linear-gradient(
+      var(--shiny-text-spread),
+      var(--shiny-text-color) 0%,
+      var(--shiny-text-color) 35%,
+      var(--shiny-text-shine-color) 50%,
+      var(--shiny-text-color) 65%,
+      var(--shiny-text-color) 100%
+    );
+  background-size: 200% auto;
+  background-position: 150% center;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.shineLeft {
+  animation:
+    shiny-text-left var(--shiny-text-duration) linear
+    var(--shiny-text-delay) infinite;
+}
+
+.shineRight {
+  animation:
+    shiny-text-right var(--shiny-text-duration) linear
+    var(--shiny-text-delay) infinite;
+}
+
+.yoyo {
+  animation-direction: alternate;
+}
+
+.pauseOnHover:hover {
+  animation-play-state: paused;
+}
+
+@keyframes shiny-text-left {
+  from {
+    background-position: 150% center;
+  }
+
+  to {
+    background-position: -50% center;
+  }
+}
+
+@keyframes shiny-text-right {
+  from {
+    background-position: -50% center;
+  }
+
+  to {
+    background-position: 150% center;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .shinyText {
+    animation: none;
+    background-position: center;
+  }
+}
