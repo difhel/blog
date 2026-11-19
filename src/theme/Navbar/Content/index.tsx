@@ -15,6 +15,7 @@ import NavbarSearch from '@theme/Navbar/Search';
 import NavbarMobileSidebarToggle from '@theme/Navbar/MobileSidebar/Toggle';
 import NavbarItem, { type Props as NavbarItemConfig } from '@theme/NavbarItem';
 import SearchBar from '@theme/SearchBar';
+import MagicButton from '@site/src/components/MagicButton';
 
 function useNavbarItems() {
   return useThemeConfig().navbar.items as NavbarItemConfig[];
@@ -91,6 +92,7 @@ export default function NavbarContent(): ReactNode {
               <SearchBar />
             </NavbarSearch>
           )}
+          <MagicButton className="navbar__magic" />
           <NavbarColorModeToggle className="navbar__color-mode-toggle" />
         </>
       }

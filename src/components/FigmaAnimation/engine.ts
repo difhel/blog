@@ -105,7 +105,7 @@ export function deferred(): Deferred {
 
 /** Every wait and tween goes through here, so one abort() stops the whole show. */
 export class Clock {
-  /** Playback rate: the director speeds up when sections pile up in the queue. */
+  /** Playback rate: 2 plays every tween and wait twice as fast. */
   speed = 1;
   private aborted = false;
   private readonly pending = new Set<(e: Error) => void>();

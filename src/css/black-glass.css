@@ -308,8 +308,9 @@ html {
   color: var(--bgx-on-accent-tonal);
 }
 
-/* round icon buttons: sidebar toggle (mobile only, Infima hides it on desktop) and color mode */
+/* round icon buttons: sidebar toggle (mobile only, Infima hides it on desktop), magic, color mode */
 .navbar__toggle,
+.navbar__magic button,
 .navbar__color-mode-toggle button {
   align-items: center;
   justify-content: center;
@@ -328,12 +329,14 @@ html {
 
 .navbar__toggle:hover,
 .navbar__toggle[aria-expanded='true'],
+.navbar__magic button:hover,
 .navbar__color-mode-toggle button:hover {
   background: var(--bgx-rim);
   color: var(--bgx-fg);
 }
 
 /* .navbar prefix: beats the theme's own `.toggle { width: 2rem; height: 2rem }` module rule */
+.navbar .navbar__magic,
 .navbar .navbar__color-mode-toggle {
   display: flex;
   flex: 0 0 auto;
@@ -342,9 +345,40 @@ html {
   margin-left: 0.25rem;
 }
 
+.navbar .navbar__magic button,
 .navbar .navbar__color-mode-toggle button {
   width: 100%;
   height: 100%;
+}
+
+.navbar__magic button {
+  display: flex;
+}
+
+/* the magic button: the big star turns a little, the small ones twinkle */
+.navbar__magic svg {
+  transition: transform 0.35s cubic-bezier(0.2, 1.4, 0.4, 1);
+}
+
+.navbar__magic-twinkle {
+  transform-box: fill-box;
+  transform-origin: center;
+  transition: transform 0.35s cubic-bezier(0.2, 1.4, 0.4, 1);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .navbar__magic button:hover svg {
+    transform: rotate(-12deg) scale(1.06);
+  }
+
+  .navbar__magic button:hover .navbar__magic-twinkle {
+    transform: scale(1.35) rotate(45deg);
+  }
+}
+
+.navbar__magic button:focus-visible {
+  outline: 2px solid var(--bgx-accent);
+  outline-offset: 2px;
 }
 
 .navbar__sidebar-toggle-icon {

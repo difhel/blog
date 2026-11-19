@@ -96,8 +96,16 @@ export class Director {
     root: HTMLElement,
     layer: HTMLElement,
     private readonly onStatus: (s: Status) => void,
+    /** playback rate of the whole show: every tween, wait and keystroke */
+    private readonly speed = 1,
   ) {
     this.stage = new Stage(root, layer);
+    this.clock.speed = speed;
+  }
+
+  /** A duration for animations the clocks don't drive (WAAPI), at the show's speed. */
+  private t(ms: number): number {
+    return ms / this.speed;
   }
 
   start(): void {
@@ -267,6 +275,7 @@ export class Director {
     this.running = target;
     this.emit();
     const clock = new Clock();
+    clock.speed = this.speed;
     this.sceneClock = clock;
     const crew: Crew = PEOPLE.map((p) => new Cursor(this.stage, clock, p.name, p.color));
     try {
@@ -309,7 +318,7 @@ export class Director {
       if (scene.style.clipPath !== 'none') {
         this.touched.add(scene);
         scene.style.clipPath = 'none';
-        this.anims.add(scene.animate([{opacity: 0}, {opacity: 1}], {duration: 420, easing: 'ease-out'}));
+        this.anims.add(scene.animate([{opacity: 0}, {opacity: 1}], {duration: this.t(420), easing: 'ease-out'}));
       }
     } else {
       const list = scene.querySelector<HTMLElement>(':scope > h2 ~ div');
@@ -326,7 +335,7 @@ export class Director {
             {opacity: 0, filter: 'blur(6px)', transform: 'translateY(12px)'},
             {opacity: 1, filter: 'blur(0)', transform: 'none'},
           ],
-          {duration: 520, delay: 50 * i++, easing: 'cubic-bezier(.2, 1, .3, 1)', fill: 'backwards'},
+          {duration: this.t(520), delay: this.t(50 * i++), easing: 'cubic-bezier(.2, 1, .3, 1)', fill: 'backwards'},
         ),
       );
     }
@@ -375,7 +384,7 @@ export class Director {
     this.shown.add(el);
     el.style.opacity = '1';
     el.style.pointerEvents = 'auto';
-    if (fade) this.anims.add(el.animate([{opacity: 0}, {opacity: 1}], {duration: fade, easing: 'ease-out'}));
+    if (fade) this.anims.add(el.animate([{opacity: 0}, {opacity: 1}], {duration: this.t(fade), easing: 'ease-out'}));
   }
 
   /** Children land one after another, auto-layout style. */
@@ -387,7 +396,7 @@ export class Director {
             {opacity: 0, transform: 'translateY(10px) scale(0.98)'},
             {opacity: 1, transform: 'none'},
           ],
-          {duration: 560, delay: 70 * i, easing: 'cubic-bezier(.2, 1, .3, 1)', fill: 'backwards'},
+          {duration: this.t(560), delay: this.t(70 * i), easing: 'cubic-bezier(.2, 1, .3, 1)', fill: 'backwards'},
         ),
       );
     });

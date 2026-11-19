@@ -348,12 +348,6 @@
   "magic.skip": {
     "message": "Skip"
   },
-  "magic.status.auto": {
-    "message": "Scroll to pause animation"
-  },
-  "magic.status.manual": {
-    "message": "Scroll to keep animating"
-  },
   "magic.status.done": {
     "message": "Play again?"
   },
@@ -362,5 +356,11 @@
   },
   "magic.reload": {
     "message": "Reload"
+  },
+  "magic.status.scroll": {
+    "message": "Scroll to skip this section"
+  },
+  "magic.navbar.play": {
+    "message": "Play the magic animation"
   }
 }

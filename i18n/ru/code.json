@@ -387,12 +387,6 @@
   "magic.skip": {
     "message": "Пропустить"
   },
-  "magic.status.auto": {
-    "message": "Прокрутите, чтобы остановить"
-  },
-  "magic.status.manual": {
-    "message": "Прокручивайте дальше"
-  },
   "magic.status.done": {
     "message": "Ещё раз?"
   },
@@ -401,5 +395,11 @@
   },
   "magic.reload": {
     "message": "Заново"
+  },
+  "magic.status.scroll": {
+    "message": "Прокрутите, чтобы пропустить секцию"
+  },
+  "magic.navbar.play": {
+    "message": "Запустить магическую анимацию"
   }
 }
