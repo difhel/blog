@@ -1,6 +1,7 @@
 import type { Config } from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
 import { themes } from 'prism-react-renderer';
+import homepageDataPlugin from './plugins/homepage-data';
 
 const lightCodeTheme = themes.github;
 const darkCodeTheme = themes.dracula;
@@ -20,6 +21,15 @@ const config: Config = {
   // If you aren't using GitHub pages, you don't need these.
   organizationName: 'facebook', // Usually your GitHub org/user name.
   projectName: 'docusaurus', // Usually your repo name.
+
+  // Geist + Geist Mono: the Black Glass typefaces (used by the blog pages)
+  headTags: [
+    {tagName: 'link', attributes: {rel: 'preconnect', href: 'https://fonts.googleapis.com'}},
+    {tagName: 'link', attributes: {rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: 'anonymous'}},
+  ],
+  stylesheets: [
+    'https://fonts.googleapis.com/css2?family=Geist:wght@400..700&family=Geist+Mono:wght@400..600&display=swap',
+  ],
 
   onBrokenLinks: 'throw',
   markdown: {
@@ -52,11 +62,20 @@ const config: Config = {
             blogSidebarCount: 'ALL',
         },
         theme: {
-          customCss: require.resolve('./src/css/custom.css'),
+          customCss: [
+            require.resolve('./src/css/custom.css'),
+            // Black Glass design system: tokens, page background
+            require.resolve('./src/css/black-glass.css'),
+            // Blog list and post pages in the Black Glass design system
+            require.resolve('./src/css/blog-black-glass.css'),
+          ],
         },
       } satisfies Preset.Options as Preset.Options,
     ],
   ],
+
+  // latest posts and Telegram channel stats for the homepage "Start here" cards
+  plugins: [homepageDataPlugin],
 
   themeConfig: {
       image: 'img/difhel-social-card.png',
@@ -77,11 +96,6 @@ const config: Config = {
             type: 'localeDropdown',
           }
         ],
-      },
-      footer: {
-        style: 'dark',
-        links: [],
-        copyright: `${new Date().getFullYear()}, Mark Fomin`,
       },
       prism: {
         theme: lightCodeTheme,

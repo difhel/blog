@@ -4,8 +4,7 @@ import Link from '@docusaurus/Link';
 import {useBlogPost} from '@docusaurus/plugin-content-blog/client';
 import type {Props} from '@theme/BlogPostItem/Header/Title';
 
-import styles from './styles.module.css';
-
+// Sizes live in src/css/blog-black-glass.css (.bg-title).
 export default function BlogPostItemHeaderTitle({
   className,
 }: Props): JSX.Element {
@@ -13,7 +12,7 @@ export default function BlogPostItemHeaderTitle({
   const {permalink, title} = metadata;
   const TitleHeading = isBlogPostPage ? 'h1' : 'h2';
   return (
-    <TitleHeading className={clsx(styles.title, className)}>
+    <TitleHeading className={clsx('bg-title', className)}>
       {isBlogPostPage ? title : <Link to={permalink}>{title}</Link>}
     </TitleHeading>
   );

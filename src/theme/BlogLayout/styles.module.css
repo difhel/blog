@@ -1,7 +1,26 @@
 .telegramComments {
-    border-radius: 30px;
-    display: flex;
-    justify-content: center;
-    margin-top: 2rem;
-    overflow: hidden;
+  display: flex;
+  justify-content: center;
+  margin-top: 2.5rem;
+  padding: 0.5rem;
+  overflow: hidden;
+  /* Black Glass surface, like the pagination cards and the list cards */
+  border: 1px solid var(--bgx-rim);
+  border-radius: var(--bgx-radius-xl);
+  background: var(--bgx-card);
+}
+
+.telegramComments:empty {
+  display: none;
+}
+
+/* Chrome resolves prefers-color-scheme inside an iframe from the iframe element's own
+   color-scheme. Without this the Telegram page follows the OS (often dark) and paints a
+   dark background under light-theme (dark) text. Keep it in step with the site theme. */
+.telegramComments iframe {
+  color-scheme: light;
+}
+
+:global([data-theme='dark']) .telegramComments iframe {
+  color-scheme: dark;
 }

@@ -1,0 +1,442 @@
+/**
+ * Black Glass design system: site-wide tokens, page background and navbar.
+ *
+ * Dark theme = Black Glass tokens as defined in the design system.
+ * Light theme = the same shapes, radii, type and spacing on light surfaces, with a darker
+ * periwinkle accent for contrast on white.
+ *
+ * Also the navbar and its mobile sidebar. Blog styles: blog-black-glass.css.
+ * Homepage sections use these tokens from their CSS modules.
+ */
+
+:root {
+  --bgx-surface-0: #ffffff;
+  --bgx-surface-1: #f6f6f7;
+  --bgx-surface-2: #efeff1;
+  --bgx-surface-3: #e6e6e9;
+  --bgx-rim: #18181b14;
+  --bgx-rim-strong: #18181b29;
+  --bgx-fg: #18181b;
+  --bgx-fg-muted: #5f5f68;
+  --bgx-fg-subtle: #8e8e96;
+  --bgx-accent: #5b5bd6;
+  --bgx-accent-pressed: #4b4bc4;
+  --bgx-on-accent: #ffffff;
+  --bgx-accent-tonal: #e8e9ff;
+  --bgx-accent-tonal-pressed: #dcdeff;
+  --bgx-on-accent-tonal: #3e3eb5;
+  --bgx-positive: #0e8f45;
+  --bgx-positive-tonal: #ddf7e8;
+  --bgx-warning: #b46e00;
+  --bgx-warning-tonal: #fdf0da;
+  --bgx-danger: #c9412f;
+  --bgx-danger-tonal: #ffe4e4;
+
+  /* Cards: elevation as a tone step away from the page, Material-style. Dark lightens
+     (surface-1, hover surface-2); light darkens, but by a smaller step than surface-1,
+     which on white already read as a hovered fill. */
+  --bgx-card: #fafafa;
+  --bgx-card-hover: #f4f4f5;
+
+  /* admonitions: one bg / text / accent triple per type */
+  --bgx-admon-note-bg: var(--bgx-surface-2);
+  --bgx-admon-note-fg: var(--bgx-fg);
+  --bgx-admon-note-accent: var(--bgx-fg-muted);
+  --bgx-admon-info-bg: var(--bgx-accent-tonal);
+  --bgx-admon-info-fg: var(--bgx-on-accent-tonal);
+  --bgx-admon-info-accent: var(--bgx-accent);
+  --bgx-admon-tip-bg: #ddf7e8;
+  --bgx-admon-tip-fg: #1b5e2b;
+  --bgx-admon-tip-accent: #0e8f45;
+  --bgx-admon-warning-bg: #fdf0da;
+  --bgx-admon-warning-fg: #6b4300;
+  --bgx-admon-warning-accent: #b46e00;
+  --bgx-admon-caution-bg: #fbe6da;
+  --bgx-admon-caution-fg: #7a3410;
+  --bgx-admon-caution-accent: #c2551f;
+  --bgx-admon-danger-bg: #ffe4e4;
+  --bgx-admon-danger-fg: #852221;
+  --bgx-admon-danger-accent: #c9412f;
+
+  --bgx-radius-sm: 10px;
+  --bgx-radius-md: 14px;
+  --bgx-radius-lg: 20px;
+  --bgx-radius-xl: 26px;
+  --bgx-radius-full: 999px;
+
+  --bgx-font: 'Geist', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --bgx-font-mono: 'Geist Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  /* glass: only over content (hero rays) */
+  --bgx-glass-fill: #ffffffa3;
+  --bgx-glass-rim: #ffffffb3;
+  --bgx-glass-highlight: #ffffffcc;
+  --bgx-glass-shadow: #18181b1f;
+  --bgx-glass-blur: 24px;
+}
+
+[data-theme='dark'] {
+  --bgx-glass-fill: #1c1c1fa3;
+  --bgx-glass-rim: #ffffff29;
+  --bgx-glass-highlight: #ffffff1a;
+  --bgx-glass-shadow: #00000066;
+
+  --bgx-surface-0: #000000;
+  --bgx-surface-1: #0e0e10;
+  --bgx-surface-2: #18181b;
+  --bgx-surface-3: #232327;
+  --bgx-rim: #ffffff14;
+  --bgx-rim-strong: #ffffff29;
+  --bgx-fg: #f4f4f5;
+  --bgx-fg-muted: #a1a1aa;
+  --bgx-fg-subtle: #63636b;
+  --bgx-accent: #a5b4ff;
+  --bgx-accent-pressed: #8e9be6;
+  --bgx-on-accent: #10153a;
+  --bgx-accent-tonal: #1d2347;
+  --bgx-accent-tonal-pressed: #262c59;
+  --bgx-on-accent-tonal: #cbd3ff;
+  --bgx-positive: #6ee7a8;
+  --bgx-positive-tonal: #0f2a1e;
+  --bgx-warning: #ffc069;
+  --bgx-warning-tonal: #2e2210;
+  --bgx-danger: #ff6b6b;
+  --bgx-danger-tonal: #331414;
+
+  --bgx-card: var(--bgx-surface-1);
+  --bgx-card-hover: var(--bgx-surface-2);
+
+  --bgx-admon-note-bg: var(--bgx-surface-2);
+  --bgx-admon-note-fg: var(--bgx-fg);
+  --bgx-admon-note-accent: var(--bgx-fg-muted);
+  --bgx-admon-info-bg: var(--bgx-accent-tonal);
+  --bgx-admon-info-fg: var(--bgx-on-accent-tonal);
+  --bgx-admon-info-accent: var(--bgx-accent);
+  --bgx-admon-tip-bg: #0f2a1e;
+  --bgx-admon-tip-fg: #b4f0c0;
+  --bgx-admon-tip-accent: #6ee7a8;
+  --bgx-admon-warning-bg: #2e2210;
+  --bgx-admon-warning-fg: #ffe2b8;
+  --bgx-admon-warning-accent: #ffc069;
+  --bgx-admon-caution-bg: #33190f;
+  --bgx-admon-caution-fg: #ffd9c7;
+  --bgx-admon-caution-accent: #ff9e76;
+  --bgx-admon-danger-bg: #331414;
+  --bgx-admon-danger-fg: #f9dedc;
+  --bgx-admon-danger-accent: #ff6b6b;
+}
+
+/* Infima leaves the light page background transparent: make every page explicit. */
+html {
+  background-color: var(--bgx-surface-0);
+}
+
+/* Infima primary = Black Glass accent everywhere (links, active dropdown items, focus) */
+:root,
+[data-theme='dark'] {
+  --ifm-color-primary: var(--bgx-accent);
+  --ifm-color-primary-dark: var(--bgx-accent-pressed);
+  --ifm-color-primary-darker: var(--bgx-accent-pressed);
+  --ifm-color-primary-darkest: var(--bgx-accent-pressed);
+  --ifm-color-primary-light: var(--bgx-accent);
+  --ifm-color-primary-lighter: var(--bgx-accent);
+  --ifm-color-primary-lightest: var(--bgx-accent);
+  --ifm-navbar-height: 3.5rem;
+}
+
+/* ---------- Navbar: a glass pill as wide as the page content ---------- */
+
+.navbar-shell {
+  --sidebar-opacity: 0;
+  --sidebar-transform: translate3d(calc(-100% - var(--viewport-edge-gap)), 0, 0);
+  --sidebar-visibility: hidden;
+  --sidebar-visibility-delay: var(--ifm-transition-fast);
+  display: contents;
+}
+
+.navbar-shell.navbar-sidebar--show {
+  --sidebar-opacity: 1;
+  --sidebar-transform: translate3d(0, 0, 0);
+  --sidebar-visibility: visible;
+  --sidebar-visibility-delay: 0s;
+}
+
+.navbar,
+.navbar-sidebar {
+  --ifm-navbar-shadow: none;
+  --ifm-navbar-background-color: transparent;
+  --ifm-navbar-link-color: var(--bgx-fg-muted);
+  --ifm-navbar-link-hover-color: var(--bgx-fg);
+  --ifm-navbar-link-active-color: var(--bgx-on-accent-tonal);
+  --ifm-dropdown-background-color: var(--bgx-surface-1);
+  --ifm-dropdown-link-color: var(--bgx-fg);
+  --ifm-dropdown-hover-background-color: var(--bgx-rim);
+  --ifm-menu-color: var(--bgx-fg);
+  --ifm-menu-color-active: var(--bgx-on-accent-tonal);
+  --ifm-menu-color-background-active: var(--bgx-accent-tonal);
+  --ifm-menu-color-background-hover: var(--bgx-rim);
+  border: 1px solid var(--bgx-glass-rim);
+  background: var(--bgx-glass-fill);
+  box-shadow:
+    inset 0 1px 0 var(--bgx-glass-highlight),
+    0 8px 24px var(--bgx-glass-shadow);
+  backdrop-filter: blur(var(--bgx-glass-blur)) saturate(1.4);
+  -webkit-backdrop-filter: blur(var(--bgx-glass-blur)) saturate(1.4);
+  font-family: var(--bgx-font);
+}
+
+.navbar {
+  position: sticky;
+  top: var(--viewport-edge-gap);
+  z-index: var(--ifm-z-index-fixed);
+  align-items: center;
+  width: calc(100% - var(--viewport-edge-gap) * 2);
+  height: var(--ifm-navbar-height);
+  margin: var(--viewport-edge-gap) auto;
+  padding: 0 0.5rem;
+  border-radius: var(--bgx-radius-full);
+}
+
+/* desktop: the same width as Infima's .container content box */
+@media (min-width: 997px) {
+  .navbar {
+    max-width: calc(var(--ifm-container-width) - var(--ifm-spacing-horizontal) * 2);
+  }
+}
+
+@media (min-width: 1440px) {
+  .navbar {
+    max-width: calc(var(--ifm-container-width-xl) - var(--ifm-spacing-horizontal) * 2);
+  }
+}
+
+.navbar__inner {
+  position: relative;
+  z-index: 1;
+}
+
+.navbar__items {
+  gap: 0.25rem;
+}
+
+.navbar__brand {
+  margin-right: 0.5rem;
+  padding-left: 0.25rem;
+}
+
+.navbar__logo {
+  height: 2.25rem;
+}
+
+/* links: pill items, active route on the tonal accent */
+.navbar .navbar__item {
+  padding: 0;
+}
+
+.navbar .navbar__link {
+  align-items: center;
+  gap: 0.375rem;
+  height: 2.5rem;
+  padding: 0 0.875rem;
+  border-radius: var(--bgx-radius-full);
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--ifm-navbar-link-color);
+  text-decoration: none;
+  transition:
+    background-color var(--ifm-transition-fast) ease,
+    color var(--ifm-transition-fast) ease;
+}
+
+/* desktop only: on mobile Infima hides navbar items, they live in the sidebar */
+@media (min-width: 997px) {
+  .navbar .navbar__link {
+    display: inline-flex;
+  }
+}
+
+.navbar .navbar__link:hover {
+  background: var(--bgx-rim);
+  color: var(--ifm-navbar-link-hover-color);
+}
+
+.navbar .navbar__link--active,
+.navbar .navbar__link--active:hover {
+  background: var(--bgx-accent-tonal);
+  color: var(--bgx-on-accent-tonal);
+}
+
+/* locale dropdown: Lucide chevron instead of Infima's border triangle */
+.navbar .dropdown > .navbar__link::after {
+  width: 0.875rem;
+  height: 0.875rem;
+  margin: 0;
+  border: 0;
+  background: currentColor;
+  opacity: 0.6;
+  top: 0;
+  transform: none;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") center / contain no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+
+.navbar .dropdown__menu {
+  min-width: 12rem;
+  padding: 0.375rem;
+  border: 1px solid var(--bgx-rim-strong);
+  border-radius: var(--bgx-radius-lg);
+  background: var(--bgx-card);
+  box-shadow: 0 12px 32px var(--bgx-glass-shadow);
+}
+
+.navbar .dropdown__link {
+  padding: 0.5rem 0.75rem;
+  border-radius: var(--bgx-radius-sm);
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--bgx-fg);
+}
+
+.navbar .dropdown__link:hover {
+  background: var(--bgx-rim);
+  color: var(--bgx-fg);
+}
+
+.navbar .dropdown__link--active,
+.navbar .dropdown__link--active:hover {
+  background: var(--bgx-accent-tonal);
+  color: var(--bgx-on-accent-tonal);
+}
+
+/* round icon buttons: sidebar toggle (mobile only, Infima hides it on desktop) and color mode */
+.navbar__toggle,
+.navbar__color-mode-toggle button {
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: var(--bgx-radius-full);
+  color: var(--bgx-fg-muted);
+  transition:
+    background-color var(--ifm-transition-fast) ease,
+    color var(--ifm-transition-fast) ease;
+}
+
+.navbar__toggle {
+  margin-right: 0.25rem;
+}
+
+.navbar__toggle:hover,
+.navbar__toggle[aria-expanded='true'],
+.navbar__color-mode-toggle button:hover {
+  background: var(--bgx-rim);
+  color: var(--bgx-fg);
+}
+
+/* .navbar prefix: beats the theme's own `.toggle { width: 2rem; height: 2rem }` module rule */
+.navbar .navbar__color-mode-toggle {
+  display: flex;
+  flex: 0 0 auto;
+  width: 2.5rem;
+  height: 2.5rem;
+  margin-left: 0.25rem;
+}
+
+.navbar .navbar__color-mode-toggle button {
+  width: 100%;
+  height: 100%;
+}
+
+.navbar__sidebar-toggle-icon {
+  display: block;
+  flex: 0 0 auto;
+}
+
+.navbar__sidebar-toggle-arrow {
+  transform-box: fill-box;
+  transform-origin: center;
+  transition: transform var(--ifm-transition-fast) ease;
+}
+
+.navbar__toggle[aria-expanded='true'] .navbar__sidebar-toggle-arrow {
+  transform: rotate(180deg);
+}
+
+/* ---------- Mobile sidebar: a glass sheet under the navbar ---------- */
+
+.navbar-sidebar {
+  --ifm-menu-link-padding-horizontal: 1rem;
+  --ifm-menu-link-padding-vertical: 0.75rem;
+  position: fixed;
+  top: calc(var(--ifm-navbar-height) + var(--viewport-edge-gap) * 2);
+  bottom: var(--viewport-edge-gap);
+  left: var(--viewport-edge-gap);
+  z-index: calc(var(--ifm-z-index-fixed) - 1);
+  width: min(var(--ifm-navbar-sidebar-width), calc(100vw - var(--viewport-edge-gap) * 2));
+  height: auto;
+  overflow: hidden;
+  border-radius: var(--bgx-radius-xl);
+  opacity: var(--sidebar-opacity);
+  transform: var(--sidebar-transform);
+  transition:
+    opacity var(--ifm-transition-fast) ease,
+    transform var(--ifm-transition-fast) ease,
+    visibility 0s linear var(--sidebar-visibility-delay);
+  visibility: var(--sidebar-visibility);
+}
+
+.navbar-sidebar__items {
+  position: relative;
+  z-index: 1;
+  height: 100%;
+}
+
+.navbar-sidebar__item {
+  width: min(var(--ifm-navbar-sidebar-width), calc(100vw - var(--viewport-edge-gap) * 2));
+  padding: 0.5rem;
+  overflow-y: auto;
+}
+
+.navbar-sidebar .menu__list-item:not(:first-child) {
+  margin-top: 0.25rem;
+}
+
+.navbar-sidebar .menu__link,
+.navbar-sidebar .menu__caret,
+.navbar-sidebar__back {
+  min-height: 3rem;
+  border-radius: var(--bgx-radius-md);
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.navbar-sidebar .menu__link {
+  gap: 0.625rem;
+  line-height: 1.2;
+}
+
+.navbar-sidebar .menu__link:hover,
+.navbar-sidebar .menu__caret:hover,
+.navbar-sidebar .menu__list-item-collapsible:hover {
+  background: var(--ifm-menu-color-background-hover);
+}
+
+.navbar-sidebar .menu__link--active:not(.menu__link--sublist),
+.navbar-sidebar .menu__list-item-collapsible--active {
+  background: var(--ifm-menu-color-background-active);
+  color: var(--ifm-menu-color-active);
+}
+
+.navbar-sidebar .menu__list-item-collapsible {
+  border-radius: var(--bgx-radius-md);
+}
+
+.navbar-sidebar__back {
+  top: 0;
+  width: 100%;
+  margin: 0 0 0.5rem;
+  padding: 0 1rem;
+  background: var(--bgx-rim);
+  color: var(--bgx-fg);
+  text-align: left;
+}

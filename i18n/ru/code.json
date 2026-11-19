@@ -353,5 +353,35 @@
   "theme.tags.tagsPageTitle": {
     "message": "Теги",
     "description": "The title of the tag list page"
+  },
+  "homepage.start.title": {
+    "message": "С чего начать"
+  },
+  "homepage.start.blog.title": {
+    "message": "Читать блог"
+  },
+  "homepage.start.blog.text": {
+    "message": "Разборы того, что я собираю, ломаю и замеряю по ходу дела."
+  },
+  "homepage.start.blog.cta": {
+    "message": "Открыть блог"
+  },
+  "homepage.start.telegram.title": {
+    "message": "Подписаться на канал"
+  },
+  "homepage.start.telegram.text": {
+    "message": "Новые посты появляются здесь первыми, а ещё всё, что слишком коротко для блога."
+  },
+  "homepage.start.telegram.cta": {
+    "message": "Подписаться"
+  },
+  "homepage.start.telegram.bubble": {
+    "message": "Новый пост в блоге"
+  },
+  "homepage.start.telegram.channel": {
+    "message": "Telegram-канал"
+  },
+  "homepage.start.telegram.subscribers": {
+    "message": "{count} подписчик|{count} подписчика|{count} подписчиков|{count} подписчика"
   }
 }

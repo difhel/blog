@@ -37,13 +37,11 @@ export default function BlogPostItemFooter(): JSX.Element | null {
         {tagsExists && (
           <div
             className={clsx(
-              'row',
+              'bg-tags',
               'margin-top--sm',
               ThemeClassNames.blog.blogFooterEditMetaRow,
             )}>
-            <div className="col">
-              <TagsListInline tags={tags} />
-            </div>
+            <TagsListInline tags={tags} />
           </div>
         )}
         {canDisplayEditMetaRow && (
@@ -63,19 +61,18 @@ export default function BlogPostItemFooter(): JSX.Element | null {
   // BlogPost footer - list view
   else {
     return (
-      <footer className="row docusaurus-mt-lg">
+      <footer className="bg-card__footer">
         {tagsExists && (
-          <div className={clsx('col', {'col--9': truncatedPost})}>
+          <div className="bg-tags">
             <TagsListInline tags={tags} />
           </div>
         )}
         {truncatedPost && (
-          <div
-            className={clsx('col text--right', {
-              'col--3': tagsExists,
-            })}>
-            <ReadMoreLink blogPostTitle={title} to={metadata.permalink} />
-          </div>
+          <ReadMoreLink
+            className="bg-button bg-button--tonal"
+            blogPostTitle={title}
+            to={metadata.permalink}
+          />
         )}
       </footer>
     );

@@ -314,5 +314,35 @@
   "theme.tags.tagsPageTitle": {
     "message": "Tags",
     "description": "The title of the tag list page"
+  },
+  "homepage.start.title": {
+    "message": "Start here"
+  },
+  "homepage.start.blog.title": {
+    "message": "Read the blog"
+  },
+  "homepage.start.blog.text": {
+    "message": "Write-ups on what I build, break and benchmark along the way."
+  },
+  "homepage.start.blog.cta": {
+    "message": "Open the blog"
+  },
+  "homepage.start.telegram.title": {
+    "message": "Follow the channel"
+  },
+  "homepage.start.telegram.text": {
+    "message": "New posts land here first, plus the shorter stuff that never makes it to the blog."
+  },
+  "homepage.start.telegram.cta": {
+    "message": "Subscribe"
+  },
+  "homepage.start.telegram.bubble": {
+    "message": "New post on the blog"
+  },
+  "homepage.start.telegram.channel": {
+    "message": "Telegram channel"
+  },
+  "homepage.start.telegram.subscribers": {
+    "message": "{count} subscriber|{count} subscribers"
   }
 }

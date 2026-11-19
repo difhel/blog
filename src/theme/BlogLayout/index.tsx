@@ -2,53 +2,56 @@ import React, { useEffect, useRef, type ReactNode } from 'react';
 import clsx from 'clsx';
 import Layout from '@theme/Layout';
 import BlogSidebar from '@theme/BlogSidebar';
+import { useColorMode } from '@docusaurus/theme-common';
 
 import type { Props } from '@theme/BlogLayout';
 import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
 
 import styles from './styles.module.css';
 
-function bindComments(telegramPost) {
-  console.log("bindComments", telegramPost);
-  const hasRun = useRef(false);
+// Black Glass accent (light / dark), without '#': the widget takes bare hex.
+const ACCENT_LIGHT = '5B5BD6';
+const ACCENT_DARK = 'A5B4FF';
+
+// Telegram discussion widget for the post's channel message (frontMatter.telegram).
+// The widget renders into an iframe with its own theme, so it is recreated whenever the
+// site's color mode changes; `data-dark` switches the iframe to dark text colors.
+function TelegramComments({ post }: { post: string }): ReactNode {
+  const { colorMode } = useColorMode();
+  const mountRef = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
-    if (hasRun.current) return;
-    hasRun.current = true;
+    const mount = mountRef.current;
+    if (!mount) return undefined;
+    mount.replaceChildren();
+    const script = document.createElement('script');
+    script.async = true;
+    script.src = 'https://telegram.org/js/telegram-widget.js?22';
+    script.setAttribute('data-telegram-discussion', post);
+    script.setAttribute('data-comments-limit', '10');
+    script.setAttribute('data-color', ACCENT_LIGHT);
+    script.setAttribute('data-dark-color', ACCENT_DARK);
+    if (colorMode === 'dark') {
+      script.setAttribute('data-dark', '1');
+    }
+    mount.appendChild(script);
+    return () => mount.replaceChildren();
+  }, [post, colorMode]);
 
-    console.log("DOMContentLoaded");
-    let telegramScript = document.createElement("script");
-    telegramScript.setAttribute("src", "https://telegram.org/js/telegram-widget.js?22");
-    telegramScript.setAttribute("data-telegram-discussion", telegramPost);
-    telegramScript.setAttribute("data-comments-limit", "10");
-    telegramScript.setAttribute("data-color", "29B127");
-    telegramScript.setAttribute("data-dark-color", "72E350");
-    let mountCommentsNode = document.getElementById("mountComments");
-    mountCommentsNode.parentNode.insertBefore(telegramScript, mountCommentsNode);
-    console.log("Telegram script added");
-  });
-
-  return <div id="mountComments"></div>
-
+  return <div ref={mountRef} className={styles.telegramComments} />;
 }
 
 export default function BlogLayout(props: Props): ReactNode {
   const { sidebar, toc, children, ...layoutProps } = props;
   const hasSidebar = sidebar && sidebar.items.length > 0;
 
-   // console.log(props);
-   const telegramPost: string | undefined = (
-    // props.children?.[0].props?.items?.[0]?.content?.frontMatter?.telegram ||
-    props.children?.[1]?.props?.children?.type?.frontMatter?.telegram
-    // props.children?.[1].props?.children
-  );
+  const telegramPost: string | undefined = (
+    props.children as any
+  )?.[1]?.props?.children?.type?.frontMatter?.telegram;
 
-  console.log("Telegram Post Linked", telegramPost);
-
-  const comments = telegramPost ? (
-    <>
-      {bindComments(telegramPost)}
-    </>
-  ) : null;
+  const showComments =
+    !!telegramPost &&
+    !(ExecutionEnvironment.canUseDOM && location.pathname.endsWith('blog'));
 
   return (
     <Layout {...layoutProps}>
@@ -61,15 +64,7 @@ export default function BlogLayout(props: Props): ReactNode {
               'col--9 col--offset-1': !hasSidebar,
             })}>
             {children}
-            {
-              ExecutionEnvironment.canUseDOM && location.pathname.endsWith("blog")
-                ? null
-                : (
-                  <div className={clsx(styles.telegramComments)}>
-                    {comments}
-                  </div>
-                )
-            }
+            {showComments && <TelegramComments post={telegramPost} />}
           </main>
           {toc && <div className="col col--2">{toc}</div>}
         </div>

@@ -6,8 +6,6 @@ import {useDateTimeFormat} from '@docusaurus/theme-common/internal';
 import {useBlogPost} from '@docusaurus/plugin-content-blog/client';
 import type {Props} from '@theme/BlogPostItem/Header/Info';
 
-import styles from './styles.module.css';
-
 // Very simple pluralization: probably good enough for now
 function useReadingTimePlural() {
   const {selectMessage} = usePluralForm();
@@ -64,7 +62,7 @@ export default function BlogPostItemHeaderInfo({
     dateTimeFormat.format(new Date(blogDate));
 
   return (
-    <div className={clsx(styles.container, 'margin-vert--md', className)}>
+    <div className={clsx('bg-meta', className)}>
       <DateTime date={date} formattedDate={formatDate(date)} />
       {typeof readingTime !== 'undefined' && (
         <>
