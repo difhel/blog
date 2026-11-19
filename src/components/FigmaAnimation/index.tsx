@@ -7,7 +7,7 @@ import {Director, PEOPLE, type Status} from './director';
 
 import styles from './styles.module.css';
 
-// playback rate of the show; `/magic?speed=1` plays it at the original pace (0.25 to 4)
+// playback rate of the show; `?speed=1` plays it at the original pace (0.25 to 4)
 const SPEED = 2;
 
 // ?loop: how long the finished page stays on screen before the show starts over
@@ -16,9 +16,13 @@ const LOOP_PAUSE = 4000;
 // set once the show has been seen (played to the end or skipped): next visits get the page as is
 const SEEN_KEY = 'magicAnimation';
 
-// Runs in <head>, before the page paints: for a returning visitor it turns the "not built yet"
-// CSS off, so the page doesn't flash empty until React decides not to play. ?force and ?loop play.
-const STATIC_SCRIPT = `try{var q=new URLSearchParams(location.search);if(localStorage.getItem('${SEEN_KEY}')&&!q.has('force')&&!q.has('loop'))document.documentElement.setAttribute('data-fig-static','')}catch(e){}`;
+// crawlers and audits get the page as is: content visible at once, no 18 s show to wait out
+const BOTS = /bot|crawl|spider|slurp|lighthouse/i;
+
+// Runs in <head>, before the page paints: for a returning visitor (or a crawler) it turns the
+// "not built yet" CSS off, so the page doesn't flash empty until React decides not to play.
+// ?force and ?loop play.
+const STATIC_SCRIPT = `try{var q=new URLSearchParams(location.search);if((localStorage.getItem('${SEEN_KEY}')||${BOTS}.test(navigator.userAgent))&&!q.has('force')&&!q.has('loop'))document.documentElement.setAttribute('data-fig-static','')}catch(e){}`;
 
 // without JS nothing would ever get built: show the page as is
 const NOSCRIPT = `<style>
@@ -89,8 +93,8 @@ export default function FigmaAnimation({children}: {children: ReactNode}): React
       setArmed(false);
       return unmark;
     }
-    if (readSeen() && !force && !loop) {
-      // seen it: the page as is, no pile; the sparkles button in the navbar plays it again
+    if ((readSeen() || BOTS.test(navigator.userAgent)) && !force && !loop) {
+      // seen it (or a crawler): the page as is, no pile; the sparkles button in the navbar plays it again
       setArmed(false);
       return unmark;
     }

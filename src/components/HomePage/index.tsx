@@ -56,8 +56,8 @@ function HomeContent(): ReactNode {
 }
 
 /**
- * The homepage. `/` renders it as is. `/magic` passes the Figma-style animation as `Stage`:
- * it's imported there, not here, so `/` doesn't ship its code.
+ * The homepage. `/` passes the Figma-style animation as `Stage`; without one the page
+ * renders as is.
  */
 export default function HomePage({Stage}: {Stage?: ComponentType<{children: ReactNode}>}): ReactNode {
   return (

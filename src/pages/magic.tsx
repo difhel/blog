@@ -1,17 +1,19 @@
 import React, {type ReactNode} from 'react';
 import Head from '@docusaurus/Head';
-import FigmaAnimation from '@site/src/components/FigmaAnimation';
-import HomePage from '@site/src/components/HomePage';
+import {Redirect, useLocation} from '@docusaurus/router';
+import useBaseUrl from '@docusaurus/useBaseUrl';
 
-// Experimental: the homepage, built live by three Figma-style collaborators
+// The animation moved to the homepage; old /magic links (with ?loop, ?force, ?speed) land there
 export default function Magic(): ReactNode {
+  const home = useBaseUrl('/');
+  const {search, hash} = useLocation();
   return (
     <>
       <Head>
-        {/* an experiment that duplicates `/`: keep it out of search results */}
+        {/* no meta refresh: it would fire before the redirect and drop ?loop and friends */}
         <meta name="robots" content="noindex" />
       </Head>
-      <HomePage Stage={FigmaAnimation} />
+      <Redirect to={`${home}${search}${hash}`} />
     </>
   );
 }
