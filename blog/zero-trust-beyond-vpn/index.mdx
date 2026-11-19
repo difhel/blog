@@ -1,0 +1,141 @@
+---
+slug: zero-trust-beyond-vpn
+date: 2026-11-19T11:44
+title: I Hated Running a VPN on Android, So I Built My Own Zero Trust Infra Instead
+cutHtml: |
+    Zero Trust usually means "put everything behind a VPN". On Android that means a TUN interface, a userspace process that never sleeps, keepalives waking the radio twice a minute, and the only VPN slot taken.
+    <br />
+    I went with mTLS instead: nginx checks a client certificate on every connection, and a small Xposed module makes unmodified Android apps and Chrome present a hardware-backed key from the system KeyChain. How it works, what it costs and where it falls short, under the cut.
+description: |
+    Zero Trust without a VPN: mTLS on nginx plus an Android Xposed module that makes unmodified apps and Chrome present a hardware-backed client certificate.
+authors: difhel
+image: ./cover.png
+tags: [android, dev, linux, security]
+telegram: difhel_b/211
+---
+<!-- truncate -->
+
+:::tip Source code
+The module, a test app, an example PKI and the nginx vhost from this article are [on GitHub](https://github.com/difhel/android-mtls-keychain-hook) (MIT).
+:::
+
+In October, GitLab patched [CVE-2026-110264](https://censys.com/advisory/cve-2026-110264): an integer overflow in the regex compiler behind its Org-mode renderer that lets an **unauthenticated** user run code on a self-managed instance. CVSS 10, every version since 7.0 affected, and all it takes is one public project with a crafted `.org` file. Your login page doesn't matter when the bug runs before it. Bugs like that show up in the CVE section of [my morning digest](https://t.me/difhel_b/209) every week, and one morning it made something click.
+
+The services on a personal VPS often hold the most sensitive data we have (passwords, notes, photos), and they get far less care than anything at work. A login page is not a security boundary: an exploit in the proxy or in the app itself doesn't care about your password.
+
+The textbook answer is **Zero Trust**: trust no connection by default, verify every request, and drop anything unauthenticated as early as possible, before it reaches code that might be vulnerable. For a personal server that almost always means a VPN: close every port, expose only WireGuard, reach your stuff through Tailscale (or Cloudflare's ZTNA, which is still a VPN under the hood).
+
+I never liked that, especially on Android:
+- **Routing pain.** A personal VPN fights with commercial VPNs, the corporate one and every app that misbehaves on a TUN.
+- **One slot.** Android allows [a single active VpnService](https://developer.android.com/reference/android/net/VpnService), so mine takes the place of anything else I might need.
+- **A process that never sleeps.** VPN on Android runs in userspace: tunneled traffic goes through a TUN into a foreground process holding tens of MB, and gets encrypted once more.
+- **Battery.** Behind carrier NAT you need `PersistentKeepalive`, which wakes the radio up every ~25 seconds, all day long.
+
+So I wrote down what I actually need:
+- I control the backend of the services I want to protect.
+- They speak HTTPS or another TLS-based protocol.
+- Only allowed devices and apps can connect. Everything else is dropped during the handshake.
+- A real boundary in front of the services: their own authentication stays, but it's NOT what keeps attackers out.
+
+That points straight at **mTLS**. Mutual TLS (mTLS) is a two-way authentication protocol where both the client and server verify each other's identities using X.509 digital certificates before exchanging application data. Unlike standard TLS, where only the server proves its identity to the client, mTLS requires the client to present a valid certificate and prove possession of its corresponding private key. The best part is that you can use it with HTTPS natively!
+
+It's quite easy to set up a client certificate on my desktop, and I'll omit this part because it's boring (ask ChatGPT if you need instructions or google `security set-identity-preference` for Safari + `AutoSelectCertificateForUrls` for Chrome). But what about Android, where the discussed disadvantages of a VPN solution are especially bad?
+
+So let's further discuss the server side and Android side. I came up with this architecture:
+
+### 1. Shared edge
+First of all, we need an edge which will terminate TLS and pass the data to our upstreams after validation as per vhost settings. For this thing, I always prefer **nginx** (proud user for over 5+ years now btw).
+
+```nginx title="/etc/nginx/conf.d/mtls.example.com.conf"
+server {
+    listen 443 ssl;
+    listen [::]:443 ssl;
+    http2 on;
+    server_name mtls.example.com;
+
+    # Server certificate (any publicly trusted one, e.g. Let's Encrypt)
+    ssl_certificate     /etc/letsencrypt/live/mtls.example.com/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/mtls.example.com/privkey.pem;
+    ssl_protocols TLSv1.2 TLSv1.3;
+
+    # mTLS: accept only client certificates issued by our CA.
+    # ssl_client_certificate also sends the CA name in the CertificateRequest,
+    # so clients (and the Android hook) know which certificate to present.
+    ssl_client_certificate /etc/nginx/mtls/client-ca.crt;
+    ssl_verify_client on;      # no valid client cert -> 400
+    ssl_verify_depth 1;        # client cert must be issued directly by this CA
+
+    location / {
+        proxy_pass http://127.0.0.1:8080;
+        proxy_set_header Host $host;
+        proxy_set_header X-Forwarded-For $remote_addr;
+        proxy_set_header X-Forwarded-Proto https;
+        # Who connected; set here, so the client cannot spoof these headers
+        proxy_set_header X-Client-Verify $ssl_client_verify;
+        proxy_set_header X-Client-DN     $ssl_client_s_dn;
+    }
+}
+```
+
+To issue client certificates, I needed to get a CA. Then I issued a cert per each of my devices.
+
+Nothing fancy here, plain OpenSSL is enough: an EC P-256 CA that lives offline on my laptop, and a `clientAuth` certificate per device. They're deliberately long-lived: putting a new certificate into Android's KeyChain is a manual trip through Settings, and the key never leaves the TEE anyway. Instead of rotating, I revoke: a lost phone goes into the CRL (`ssl_crl`), and the other devices keep working.
+
+```bash title="Issuing a device certificate"
+# CA (once)
+openssl ecparam -name prime256v1 -genkey -noout -out ca.key
+openssl req -x509 -new -key ca.key -sha256 -days 3650 -subj "/CN=My mTLS CA" \
+  -addext "basicConstraints=critical,CA:TRUE,pathlen:0" \
+  -addext "keyUsage=critical,keyCertSign,cRLSign" -out ca.crt
+
+# Device certificate
+openssl ecparam -name prime256v1 -genkey -noout -out phone.key
+openssl req -new -key phone.key -subj "/CN=phone" -out phone.csr
+printf "extendedKeyUsage=clientAuth\nkeyUsage=critical,digitalSignature\n" > client.ext
+openssl x509 -req -in phone.csr -CA ca.crt -CAkey ca.key -CAcreateserial \
+  -days 825 -sha256 -extfile client.ext -out phone.crt
+
+# PKCS#12 for Android's KeyChain (legacy algorithms parse everywhere)
+openssl pkcs12 -export -inkey phone.key -in phone.crt -certfile ca.crt -name phone \
+  -certpbe PBE-SHA1-3DES -keypbe PBE-SHA1-3DES -macalg sha1 -out phone.p12
+```
+
+### 2. DNS and firewall: no TLS-terminating proxy in front
+
+The client certificate is a part of the TLS handshake, therefore the thing terminating TLS has to be the thing that checks it. That rules out a CDN in proxy mode (for instance Cloudflare's orange cloud ends TLS on their side, and your nginx never sees the original request with the client cert attached). So my hosts are plain DNS-only records pointing at the server, with Let's Encrypt certificates and 443 open to everyone.
+
+That sounds scary, but it's exactly the point: port 443 is reachable, the services behind it are not. nginx picks the `server` block by SNI during the handshake, so mTLS and non-mTLS hosts share one 443 just fine: only the mTLS vhost sends a `CertificateRequest`. If someone tries to be clever and sends the SNI of a public host with the `Host` of an mTLS one, nginx responds with `421 Misdirected Request`. One certificate per host (no wildcard) also means browsers never try to reuse a connection of one host for another.
+
+### 3. Android: no VPN, just a hook
+
+Android already has everything except the glue. Client certificates live in the system **KeyChain** (Settings → Encryption & credentials → Install a certificate → VPN & app user certificate), and the private key is backed by the TEE, so it never leaves the hardware. The problem is that apps don't use it on their own: an app has to explicitly ask the user to pick a certificate, and most apps (Chrome aside) simply don't.
+
+So I wrote a small Xposed module (it runs on LSPosed/Vector on a rooted phone, KernelSU Next in my case) with three hooks:
+
+1. **In every whitelisted app**, it wraps Conscrypt's key manager (`SSLParametersImpl.getX509KeyManager()`). When a server sends a CertificateRequest, the app's own key manager is asked first; if it declines, and the server names *my* CA, and the key type matches, the wrapper answers with the KeyChain key. This covers `HttpsURLConnection`, OkHttp, Retrofit and anything else on the platform TLS stack, without touching the app.
+2. **In Chrome**, which runs its own BoringSSL and asks the system picker, it answers `KeyChain.choosePrivateKeyAlias` with my alias instead of showing the dialog, again only when the request names my CA.
+3. **In the KeyChain service itself**, it reports a grant for my alias to whitelisted packages, so they get the key without the per-app consent dialog. Nothing is written to the grants database: disable the module and the access is gone. This is also the actual security boundary: a non-whitelisted app calling `KeyChain.getPrivateKey()` with the right alias still gets `null`.
+
+The key is offered only when two checks pass: the host is on the module's allow-list, and the server's CertificateRequest names my CA. Random sites that ask for client certificates never see it, and neither does a page that simply copies my CA's name into its own CertificateRequest (the name is public, after all).
+
+### 4. What it costs
+
+On the data path, it costs nothing: the app talks TLS straight to the server. There is no TUN, no second layer of encryption, no keepalive and no resident process. The VPN slot stays free for whatever else I need it for. The price is one ECDSA signature in the TEE per new TLS connection to an mTLS host (resumed sessions skip it) and a couple of binder calls to KeyChain the first time a process needs the key.
+
+### 5. What it doesn't cover (yet) and other limitations
+
+- **WebView**: client cert requests go to the app's `WebViewClient`, which cancels them by default.
+- **Cronet, Flutter, Go, Rust and anything else with its own TLS stack**: no Java hook point. The universal fallback would be a local TLS-terminating proxy, which brings back exactly the VPN-ish costs I wanted to avoid. I don't use any self-hosted services with Android apps with a custom TLS stack right now, so it's okay. In case I needed this in future, I would look on native hooking, but I didn't dive that deep yet.
+- **mTLS is not CSRF protection**: any page open in Chrome can make a request to an mTLS host, and Chrome will authenticate it. Keep regular CSRF protection in your apps. I would also suggest to install a second Chromium-based mobile browser (like the official Chrome Canary from Google Play or unofficial Cromite) and hook only it, while using the main browser (Chrome) for regular browsing and the second one only for your very own services.
+- **Root is required** on the phone. That's fine for me and mostly all tech bros with capable hands, yet it won't be for everyone.
+- **It has to be TLS at the transport level.**
+- **No HTTP/2 connection coalescing.** Browsers never reuse a connection that sent a client certificate for another hostname (and nginx would answer 421 anyway), so every mTLS hostname costs its own handshake.
+
+ChatGPT says I'm the first person to invent something like this :)
+
+:::tip Source code
+The module, a test app, an example PKI and the nginx vhost from this article are on GitHub:
+[difhel/android-mtls-keychain-hook](https://github.com/difhel/android-mtls-keychain-hook) (MIT).
+
+If it saved you from one more always-on VPN, give it a ⭐ on GitHub. And if you hook an app I haven't tried, open an issue: I'd love to know what works.
+:::
