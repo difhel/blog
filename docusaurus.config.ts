@@ -2,6 +2,7 @@ import type { Config } from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
 import { themes } from 'prism-react-renderer';
 import homepageDataPlugin from './plugins/homepage-data';
+import {STATIC_SCRIPT} from './src/components/FigmaAnimation/static-script';
 
 const lightCodeTheme = themes.github;
 const darkCodeTheme = themes.dracula;
@@ -26,6 +27,8 @@ const config: Config = {
   headTags: [
     {tagName: 'link', attributes: {rel: 'preconnect', href: 'https://fonts.googleapis.com'}},
     {tagName: 'link', attributes: {rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: 'anonymous'}},
+    // homepage animation: show the page as is for returning visitors and crawlers, before it paints
+    {tagName: 'script', attributes: {}, innerHTML: STATIC_SCRIPT},
   ],
   stylesheets: [
     'https://fonts.googleapis.com/css2?family=Geist:wght@400..700&family=Geist+Mono:wght@400..600&display=swap',

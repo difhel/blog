@@ -1,9 +1,9 @@
 import React, {type CSSProperties, type ReactNode, useEffect, useRef, useState} from 'react';
 import clsx from 'clsx';
-import Head from '@docusaurus/Head';
 import {useHistory} from '@docusaurus/router';
 import {translate} from '@docusaurus/Translate';
 import {Director, PEOPLE, type Status} from './director';
+import {BOTS, SEEN_KEY} from './static-script';
 
 import styles from './styles.module.css';
 
@@ -13,16 +13,12 @@ const SPEED = 2;
 // ?loop: how long the finished page stays on screen before the show starts over
 const LOOP_PAUSE = 4000;
 
-// set once the show has been seen (played to the end or skipped): next visits get the page as is
-const SEEN_KEY = 'magicAnimation';
-
-// crawlers and audits get the page as is: content visible at once, no 18 s show to wait out
-const BOTS = /bot|crawl|spider|slurp|lighthouse/i;
-
-// Runs in <head>, before the page paints: for a returning visitor (or a crawler) it turns the
-// "not built yet" CSS off, so the page doesn't flash empty until React decides not to play.
-// ?force and ?loop play.
-const STATIC_SCRIPT = `try{var q=new URLSearchParams(location.search);if((localStorage.getItem('${SEEN_KEY}')||${BOTS}.test(navigator.userAgent))&&!q.has('force')&&!q.has('loop'))document.documentElement.setAttribute('data-fig-static','')}catch(e){}`;
+declare global {
+  interface Window {
+    /** set while a show runs: the <head> script must not switch the page to static then */
+    __figPlaying?: boolean;
+  }
+}
 
 // without JS nothing would ever get built: show the page as is
 const NOSCRIPT = `<style>
@@ -48,6 +44,16 @@ function writeSeen(): void {
   }
 }
 
+/** Should this page load play the show? ?force and ?loop do; reduced motion, a returning visitor and a crawler don't. */
+function shouldPlay(params: URLSearchParams): boolean {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return false;
+  return params.has('force') || params.has('loop') || !(readSeen() || BOTS.test(navigator.userAgent));
+}
+
+// The first mount hydrates the static HTML, which is always "armed"; a later mount (coming back
+// to the homepage within the site) renders on the client and can start in the right state.
+let hydrated = false;
+
 /** Play it again: the same page with ?force, which wins over the "seen" flag. */
 function replay(): void {
   const params = new URLSearchParams(window.location.search);
@@ -71,7 +77,7 @@ export default function FigmaAnimation({children}: {children: ReactNode}): React
   const layerRef = useRef<HTMLDivElement>(null);
   const director = useRef<Director | null>(null);
   const [status, setStatus] = useState<Status>({mode: 'auto', busy: false});
-  const [armed, setArmed] = useState(true);
+  const [armed, setArmed] = useState(() => !hydrated || shouldPlay(new URLSearchParams(window.location.search)));
   const [running, setRunning] = useState(false);
   const [looping, setLooping] = useState(false);
 
@@ -82,19 +88,20 @@ export default function FigmaAnimation({children}: {children: ReactNode}): React
     const params = new URLSearchParams(window.location.search);
     const force = params.has('force');
     const loop = params.has('loop');
+    const unmark = () => document.documentElement.removeAttribute('data-fig-static');
+    hydrated = true;
+    const play = shouldPlay(params);
+    // before ?force leaves the URL: from here on the <head> script keeps its hands off
+    if (play) window.__figPlaying = true;
     if (force) {
       // a one-off: a reload or a shared link shouldn't force it again
       params.delete('force');
       const search = params.toString();
       history.replace({...history.location, search: search ? `?${search}` : ''});
     }
-    const unmark = () => document.documentElement.removeAttribute('data-fig-static');
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      setArmed(false);
-      return unmark;
-    }
-    if ((readSeen() || BOTS.test(navigator.userAgent)) && !force && !loop) {
-      // seen it (or a crawler): the page as is, no pile; the sparkles button in the navbar plays it again
+    if (!play) {
+      // reduced motion, seen it, or a crawler: the page as is, no pile;
+      // the sparkles button in the navbar plays it again
       setArmed(false);
       return unmark;
     }
@@ -116,6 +123,7 @@ export default function FigmaAnimation({children}: {children: ReactNode}): React
         setStatus(s);
         if (s.mode === 'done') {
           setArmed(false);
+          window.__figPlaying = false;
           writeSeen();
           if (loop && !replayTimer) replayTimer = window.setTimeout(() => window.location.reload(), LOOP_PAUSE);
         }
@@ -130,6 +138,7 @@ export default function FigmaAnimation({children}: {children: ReactNode}): React
       window.clearTimeout(replayTimer);
       d.destroy();
       director.current = null;
+      window.__figPlaying = false;
       window.history.scrollRestoration = restoration;
     };
     // the decision is made once, on mount; the ?force cleanup above must not re-run it
@@ -149,9 +158,6 @@ export default function FigmaAnimation({children}: {children: ReactNode}): React
 
   return (
     <div ref={stageRef} className={clsx(styles.stage, armed && styles.armed)}>
-      <Head>
-        <script>{STATIC_SCRIPT}</script>
-      </Head>
       <noscript dangerouslySetInnerHTML={{__html: NOSCRIPT}} />
       {children}
       <div ref={layerRef} className={styles.layer} aria-hidden="true" />
