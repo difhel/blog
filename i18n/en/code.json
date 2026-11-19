@@ -344,5 +344,23 @@
   },
   "homepage.start.telegram.subscribers": {
     "message": "{count} subscriber|{count} subscribers"
+  },
+  "magic.skip": {
+    "message": "Skip"
+  },
+  "magic.status.auto": {
+    "message": "Scroll to pause animation"
+  },
+  "magic.status.manual": {
+    "message": "Scroll to keep animating"
+  },
+  "magic.status.done": {
+    "message": "Play again?"
+  },
+  "magic.status.looping": {
+    "message": "Playing again…"
+  },
+  "magic.reload": {
+    "message": "Reload"
   }
 }

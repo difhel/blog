@@ -1,0 +1,602 @@
+/**
+ * figmaAnimation: Figma canvas chrome over the homepage.
+ * Selection blue, spacing red and the default shape grey are Figma's own values,
+ * the same in both themes; everything else uses Black Glass tokens.
+ */
+
+.stage {
+  --fig-blue: #0d99ff;
+  --fig-red: #f24822;
+  --fig-shape: #d9d9d9;
+  --fig-pink: #ff24bd;
+  --fig-dot: rgb(0 0 0 / 0.13);
+
+  position: relative;
+  isolation: isolate;
+  overflow-x: clip;
+}
+
+:global([data-theme='dark']) .stage {
+  --fig-dot: rgb(255 255 255 / 0.09);
+}
+
+/* the canvas: Figma's dot grid behind anything not built yet */
+.stage::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-image: radial-gradient(circle at 1px 1px, var(--fig-dot) 1px, transparent 0);
+  background-size: 24px 24px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.9s ease;
+}
+
+/* until built: the hero frame is clipped away, headings and cards are not there yet */
+@media (prefers-reduced-motion: no-preference) {
+  .armed::before {
+    opacity: 1;
+  }
+
+  .armed :global(header.hero) {
+    clip-path: inset(0 100% 100% 0);
+  }
+
+  .armed :global(header.hero .container > div),
+  .armed :global(header.hero .container > div > *),
+  .armed :global(main .container > section > h2) {
+    opacity: 0;
+  }
+
+  .armed :global(main .container > section > h2 ~ div > *) {
+    opacity: 0;
+    pointer-events: none;
+  }
+}
+
+.layer {
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  overflow: hidden;
+  pointer-events: none;
+  font-family: var(--bgx-font);
+}
+
+.fading {
+  opacity: 0 !important;
+  transition: opacity 0.18s ease !important;
+}
+
+/* ---------- cursors ---------- */
+
+.cursor {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 3;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+  will-change: transform;
+}
+
+.cursorVisible {
+  opacity: 1;
+}
+
+.cursorArrow {
+  position: absolute;
+  top: -2.5px;
+  left: -3px;
+  width: 24px;
+  height: 24px;
+  overflow: visible;
+  transform-origin: 3px 2.5px;
+  filter: drop-shadow(0 1px 2px rgb(0 0 0 / 0.35));
+  transition: transform 0.09s ease;
+}
+
+.cursorArrow path {
+  fill: var(--c);
+  stroke: #fff;
+  stroke-linejoin: round;
+  stroke-width: 1.5;
+}
+
+.pressed .cursorArrow {
+  transform: scale(0.8);
+}
+
+.cursorTag {
+  position: absolute;
+  top: 17px;
+  left: 13px;
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 8px 3px 7px;
+  border-radius: 3px 10px 10px 10px;
+  background: var(--c);
+  box-shadow: 0 2px 8px rgb(0 0 0 / 0.22);
+  color: #fff;
+  font: 600 12px/16px var(--bgx-font);
+  white-space: nowrap;
+  transform: scale(0.6);
+  transform-origin: 0 0;
+  transition: transform 0.35s cubic-bezier(0.2, 1.4, 0.4, 1);
+}
+
+.cursorVisible .cursorTag {
+  transform: none;
+}
+
+.pressed .cursorTag {
+  transform: translate(-1px, -1px);
+}
+
+.cursorTool {
+  display: inline-flex;
+  width: 0;
+  margin-right: 0;
+  overflow: hidden;
+  transition:
+    width 0.3s cubic-bezier(0.2, 1.2, 0.4, 1),
+    margin-right 0.3s cubic-bezier(0.2, 1.2, 0.4, 1);
+}
+
+.hasTool .cursorTool {
+  width: 13px;
+  margin-right: 5px;
+}
+
+.cursorTool svg {
+  flex: none;
+  width: 13px;
+  height: 13px;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 2.4;
+  animation: tool-pop 0.35s cubic-bezier(0.2, 1.4, 0.4, 1);
+}
+
+@keyframes tool-pop {
+  from {
+    transform: scale(0.3) rotate(-30deg);
+  }
+}
+
+.ripple {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 30px;
+  height: 30px;
+  margin: -15px 0 0 -15px;
+  border: 2px solid var(--c);
+  border-radius: 50%;
+  animation: ripple 0.5s ease-out forwards;
+}
+
+@keyframes ripple {
+  from {
+    opacity: 0.9;
+    scale: 0.2;
+  }
+  to {
+    opacity: 0;
+    scale: 1.3;
+  }
+}
+
+/* a file dragged in from the desktop, riding under the pointer */
+.dragThumb {
+  position: absolute;
+  max-width: none;
+  top: 44px;
+  left: 18px;
+  width: 64px;
+  height: 64px;
+  border-radius: 8px;
+  box-shadow:
+    0 0 0 2px #fff,
+    0 10px 24px rgb(0 0 0 / 0.3);
+  object-fit: cover;
+  object-position: 0 100%;
+  opacity: 0.92;
+  transform: rotate(-8deg);
+  animation: thumb-in 0.4s cubic-bezier(0.2, 1.4, 0.4, 1);
+}
+
+@keyframes thumb-in {
+  from {
+    opacity: 0;
+    transform: rotate(-20deg) scale(0.5);
+  }
+}
+
+.fly {
+  position: absolute;
+  max-width: none;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  box-shadow: 0 10px 24px rgb(0 0 0 / 0.25);
+  object-fit: cover;
+  object-position: 0 100%;
+}
+
+/* an Alt-dragged duplicate of a real card, riding above the page until it lands */
+.ghost {
+  z-index: 1;
+  pointer-events: none;
+  will-change: transform;
+}
+
+/* ---------- selection ---------- */
+
+.sel {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 2;
+  box-sizing: border-box;
+  border: 1px solid var(--fig-blue);
+  animation: fade-in 0.12s ease-out;
+}
+
+.selHover {
+  border-width: 2px;
+}
+
+.selText {
+  border-width: 1px;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
+.handle {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  box-sizing: border-box;
+  border: 1px solid var(--fig-blue);
+  background: #fff;
+  animation: handle-pop 0.3s cubic-bezier(0.2, 1.5, 0.4, 1);
+}
+
+@keyframes handle-pop {
+  from {
+    transform: scale(0);
+  }
+}
+
+.tl {
+  top: -4.5px;
+  left: -4.5px;
+}
+
+.tr {
+  top: -4.5px;
+  right: -4.5px;
+}
+
+.bl {
+  bottom: -4.5px;
+  left: -4.5px;
+}
+
+.br {
+  right: -4.5px;
+  bottom: -4.5px;
+}
+
+.badge {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 50%;
+  padding: 1px 5px;
+  border-radius: 3px;
+  background: var(--fig-blue);
+  color: #fff;
+  font: 500 11px/16px var(--bgx-font);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  transform: translateX(-50%);
+}
+
+.label {
+  position: absolute;
+  bottom: calc(100% + 4px);
+  left: -1px;
+  color: var(--fig-blue);
+  font: 500 11px/14px var(--bgx-font);
+  white-space: nowrap;
+}
+
+.radiusDot {
+  position: absolute;
+  top: -4px;
+  left: -4px;
+  width: 8px;
+  height: 8px;
+  box-sizing: border-box;
+  border: 1px solid var(--fig-blue);
+  border-radius: 50%;
+  background: #fff;
+  animation: handle-pop 0.3s cubic-bezier(0.2, 1.5, 0.4, 1);
+}
+
+/* ---------- shapes, text, guides ---------- */
+
+.shape {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  box-sizing: border-box;
+  border: 0 solid transparent;
+  background: var(--fig-shape);
+  transition: opacity 0.28s ease;
+}
+
+.shapeFilling {
+  transition:
+    background-color 0.34s ease,
+    border-color 0.34s ease,
+    border-radius 0.34s cubic-bezier(0.2, 1, 0.3, 1),
+    opacity 0.28s ease;
+}
+
+.caret {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 2;
+  width: 2px;
+  margin-left: 1px;
+  background: var(--fig-blue);
+  animation: blink 1s steps(1) infinite;
+}
+
+.caretTyping {
+  animation: none;
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+.measure {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 2;
+  background: var(--fig-red);
+  animation: fade-in 0.15s ease-out;
+}
+
+/* end ticks */
+.measureH::before,
+.measureH::after,
+.measureV::before,
+.measureV::after {
+  content: '';
+  position: absolute;
+  background: var(--fig-red);
+}
+
+.measureH::before,
+.measureH::after {
+  top: -4px;
+  width: 1px;
+  height: 9px;
+}
+
+.measureH::before {
+  left: 0;
+}
+
+.measureH::after {
+  right: 0;
+}
+
+.measureV::before,
+.measureV::after {
+  left: -4px;
+  width: 9px;
+  height: 1px;
+}
+
+.measureV::before {
+  top: 0;
+}
+
+.measureV::after {
+  bottom: 0;
+}
+
+.measureLabel {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  padding: 1px 5px;
+  border-radius: 3px;
+  background: var(--fig-red);
+  color: #fff;
+  font: 500 11px/16px var(--bgx-font);
+  font-variant-numeric: tabular-nums;
+  transform: translate(-50%, -50%);
+}
+
+/* hung above the cards' row, off their edges */
+.measureLabelAbove {
+  top: auto;
+  bottom: 14px;
+  transform: translateX(-50%);
+}
+
+/* auto layout gaps: Figma's pink, hatched, a handle in the middle, the value on hover */
+.gap {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 2;
+  background-color: rgb(255 36 189 / 0.1);
+  background-image: repeating-linear-gradient(-45deg, rgb(255 36 189 / 0.55) 0 1px, transparent 1px 6px);
+  animation: fade-in 0.2s ease-out backwards;
+  transition: background-color 0.15s ease;
+}
+
+.gapHot {
+  background-color: rgb(255 36 189 / 0.24);
+}
+
+.gapHandle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 2px;
+  height: 14px;
+  border-radius: 1px;
+  background: var(--fig-pink);
+  box-shadow: 0 0 0 1px #fff;
+  transform: translate(-50%, -50%);
+}
+
+.gapRow .gapHandle {
+  width: 14px;
+  height: 2px;
+}
+
+.gapLabel {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 1;
+  padding: 1px 5px;
+  border-radius: 3px;
+  background: var(--fig-pink);
+  color: #fff;
+  font: 500 11px/16px var(--bgx-font);
+  font-variant-numeric: tabular-nums;
+  transform: translate(-50%, -50%);
+  animation: handle-pop 0.25s cubic-bezier(0.2, 1.5, 0.4, 1);
+}
+
+/* ---------- who's here: facepile and skip ---------- */
+
+.pile {
+  position: fixed;
+  right: 16px;
+  bottom: 16px;
+  z-index: 30;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 6px 6px 8px;
+  border: 1px solid var(--bgx-glass-rim);
+  border-radius: var(--bgx-radius-full);
+  background: var(--bgx-glass-fill);
+  box-shadow:
+    inset 0 1px 0 var(--bgx-glass-highlight),
+    0 8px 24px var(--bgx-glass-shadow);
+  color: var(--bgx-fg);
+  font: 500 13px/1 var(--bgx-font);
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(12px);
+  transition:
+    opacity 0.3s ease,
+    transform 0.4s cubic-bezier(0.2, 1, 0.3, 1);
+  backdrop-filter: blur(var(--bgx-glass-blur));
+  -webkit-backdrop-filter: blur(var(--bgx-glass-blur));
+}
+
+.pileVisible {
+  opacity: 1;
+  pointer-events: auto;
+  transform: none;
+}
+
+.avatars {
+  display: flex;
+}
+
+.avatar {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--c);
+  box-shadow: 0 0 0 2px var(--bgx-surface-1);
+  color: #fff;
+  font: 600 11px/24px var(--bgx-font);
+  text-align: center;
+}
+
+.avatar + .avatar {
+  margin-left: -6px;
+}
+
+.pileText {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--bgx-fg-muted);
+  white-space: nowrap;
+}
+
+.live {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #0acf83;
+  animation: live 1.4s ease-in-out infinite;
+}
+
+.waiting .live {
+  background: var(--bgx-fg-subtle);
+  animation: none;
+}
+
+@keyframes live {
+  50% {
+    opacity: 0.35;
+  }
+}
+
+.skip {
+  height: 28px;
+  padding: 0 12px;
+  border: 0;
+  border-radius: var(--bgx-radius-full);
+  background: var(--bgx-surface-3);
+  color: var(--bgx-fg);
+  font: inherit;
+  cursor: pointer;
+  transition: background-color var(--ifm-transition-fast) ease;
+}
+
+.skip:hover {
+  background: var(--bgx-accent-tonal);
+  color: var(--bgx-on-accent-tonal);
+}
+
+.skip:focus-visible {
+  outline: 2px solid var(--bgx-accent);
+  outline-offset: 2px;
+}
+
+/* the hint matters on phones too; drop it only where it can't fit */
+@media (max-width: 359px) {
+  .pileText {
+    display: none;
+  }
+}

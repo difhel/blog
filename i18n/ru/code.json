@@ -383,5 +383,23 @@
   },
   "homepage.start.telegram.subscribers": {
     "message": "{count} подписчик|{count} подписчика|{count} подписчиков|{count} подписчика"
+  },
+  "magic.skip": {
+    "message": "Пропустить"
+  },
+  "magic.status.auto": {
+    "message": "Прокрутите, чтобы остановить"
+  },
+  "magic.status.manual": {
+    "message": "Прокручивайте дальше"
+  },
+  "magic.status.done": {
+    "message": "Ещё раз?"
+  },
+  "magic.status.looping": {
+    "message": "Сейчас повторим…"
+  },
+  "magic.reload": {
+    "message": "Заново"
   }
 }
